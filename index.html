@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>LORE</title>
-<meta name="description" content="A launchpad where every coin ships with permanent, uneditable lore. The lore is sealed at launch and anyone can verify it.">
+<meta name="description" content="A launchpad where every coin ships with permanent, uneditable lore. Written at launch, sealed to the contract, verifiable by anyone.">
 <link rel="icon" href="assets/favicon.png">
 <meta property="og:title" content="LOREPAD — no lore, no launch">
 <meta property="og:description" content="Every coin ships with lore. Written at launch, sealed, never edited.">
@@ -16,296 +16,273 @@
 <script>document.documentElement.className+=" js"</script>
 <style>
 :root{
-  --bg:#2c261d; --bg2:#242018;
-  --panel:#60513a; --panel2:#54472f; --bar:#463a28; --bar2:#3a2f20;
-  --slot:#3e3425; --slot2:#352c1f;
-  --lit:#867354; --drk:#342c1f; --blk:#000;
+  --bg:#211c14; --bg2:#1b1710;
+  --ink:#f0eee6; --mute:#b6a887; --dim:#8b7f66;
   --gold:#f6c442; --gold2:#b08020; --orange:#ff981f; --yellow:#ffe028;
-  --paper:#f0eee6; --mute:#c3b596; --red:#da322a; --green:#3ec83e; --blue:#5fa3dc;
+  --red:#da322a; --deep:#9e2820; --green:#3ec83e;
+  --line:rgba(246,196,66,.16); --line2:rgba(0,0,0,.45);
   --ui:'Press Start 2P',ui-monospace,Menlo,Consolas,monospace;
   --body:ui-sans-serif,system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-  --chk:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='4' height='4'><rect width='2' height='2' fill='%23000' opacity='.18'/><rect x='2' y='2' width='2' height='2' fill='%23000' opacity='.18'/></svg>");
-  --maxw:1180px;
+  --chk:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='4' height='4'><rect width='2' height='2' fill='%23000' opacity='.16'/><rect x='2' y='2' width='2' height='2' fill='%23000' opacity='.16'/></svg>");
+  --maxw:1080px;
 }
 *{box-sizing:border-box}
-html{overflow-x:hidden;scroll-behavior:smooth;scroll-padding-top:104px}
-body{
-  overflow-x:clip;margin:0;background:var(--bg) var(--chk);background-size:4px 4px;
-  color:var(--paper);font-family:var(--body);font-size:16px;line-height:1.65;
-  -webkit-font-smoothing:none;
-}
+html{overflow-x:hidden;scroll-behavior:smooth;scroll-padding-top:96px}
+body{overflow-x:clip;margin:0;background:var(--bg) var(--chk);background-size:4px 4px;
+  color:var(--ink);font-family:var(--body);font-size:16.5px;line-height:1.7;-webkit-font-smoothing:none}
 img{max-width:100%;image-rendering:pixelated}
 [hidden]{display:none!important}
 a{color:var(--gold);text-decoration:none}
 a:hover{color:var(--yellow)}
 ::selection{background:var(--gold);color:#241d10}
+p{margin:0 0 14px;text-shadow:1px 1px 0 rgba(0,0,0,.5)}
 
-/* ---------- interface chrome ---------- */
-.win{
-  border:2px solid var(--blk);background:var(--panel) var(--chk);background-size:4px 4px;
-  box-shadow:inset 1px 1px 0 var(--lit),inset -1px -1px 0 var(--drk);
-  position:relative;
-}
-.grid .win.card{transition:box-shadow .12s steps(2)}
-.grid .win.card:hover{box-shadow:inset 1px 1px 0 #9c8763,inset -1px -1px 0 var(--drk)}
-.win>.wh{
-  margin:6px 6px 0;border:2px solid var(--blk);background:var(--bar) var(--chk);background-size:4px 4px;
-  box-shadow:inset 1px 1px 0 #6d5a3e,inset -1px -1px 0 #2a2216;
-  font-family:var(--ui);font-size:11px;color:var(--orange);text-shadow:1px 1px 0 #000;
-  padding:9px 10px;display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;
-}
-.win>.wh .n{color:var(--mute)}
-.wb{padding:16px}
-.sunk{
-  border:2px solid var(--blk);background:var(--slot) var(--chk);background-size:4px 4px;
-  box-shadow:inset -1px -1px 0 var(--lit),inset 1px 1px 0 var(--drk);
-}
-.riv::before,.riv::after,.riv>.rv2::before,.riv>.rv2::after{
-  content:'';position:absolute;width:5px;height:5px;background:#a6926c;
-  box-shadow:inset 0 0 0 1px #000;
-}
-.riv::before{left:4px;top:4px}.riv::after{right:4px;top:4px}
-.riv>.rv2::before{left:4px;bottom:4px}.riv>.rv2::after{right:4px;bottom:4px}
+/* ---------- pixel type helpers ---------- */
+.eyebrow{font-family:var(--ui);font-size:9px;color:var(--orange);text-shadow:1px 1px 0 #000;
+  letter-spacing:.14em;display:block;margin:0 0 14px}
+h2{font-family:var(--ui);font-size:clamp(15px,2.6vw,20px);color:var(--gold);text-shadow:3px 3px 0 #000;
+  margin:0 0 16px;line-height:1.55}
+h3{font-family:var(--ui);font-size:11px;color:var(--gold);text-shadow:1px 1px 0 #000;
+  margin:0 0 10px;line-height:1.7}
+.lede{font-size:18px;color:var(--mute);max-width:64ch;margin:0 0 34px;text-shadow:1px 1px 0 rgba(0,0,0,.5)}
+.note{font-family:var(--ui);font-size:9px;color:var(--dim);line-height:2;text-shadow:1px 1px 0 #000;margin:10px 0 0}
 
-/* ---------- buttons ---------- */
-.btn{
-  font-family:var(--ui);font-size:10px;letter-spacing:.02em;
-  color:var(--paper);text-shadow:1px 1px 0 #000;background:var(--bar) var(--chk);background-size:4px 4px;
-  border:2px solid var(--blk);box-shadow:inset 1px 1px 0 #6d5a3e,inset -1px -1px 0 #2a2216;
-  padding:12px 16px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;
-  line-height:1.4;text-align:center;justify-content:center;
-}
-.btn:hover{background-color:#55462f;color:var(--yellow)}
-.btn:active{box-shadow:inset -1px -1px 0 #6d5a3e,inset 1px 1px 0 #2a2216;transform:translate(1px,1px)}
-.btn[disabled]{opacity:.5;cursor:not-allowed}
-.btn.gold{background-color:#7a6224;color:var(--gold)}
-.btn.gold:hover{background-color:#8c7029;color:var(--yellow)}
-.btn.sm{font-size:9px;padding:9px 11px}
-
-input,textarea,select{
-  font-family:var(--body);font-size:15px;color:var(--paper);
-  background:#201b13;border:2px solid var(--blk);
-  box-shadow:inset 1px 1px 0 #17130d,inset -1px -1px 0 #4a3e2c;
-  padding:10px 12px;width:100%;min-width:0;
-}
-textarea{line-height:1.45;resize:vertical}
+/* ---------- controls ---------- */
+.btn{font-family:var(--ui);font-size:10px;color:var(--ink);text-shadow:1px 1px 0 #000;
+  background:#3b3122;border:2px solid #000;box-shadow:inset 1px 1px 0 #675736,inset -1px -1px 0 #1d180f;
+  padding:14px 18px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;
+  line-height:1.4;justify-content:center}
+.btn:hover{background:#4a3d29;color:var(--yellow)}
+.btn:active{box-shadow:inset -1px -1px 0 #675736,inset 1px 1px 0 #1d180f;transform:translate(1px,1px)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn.gold{background:#7a6224;color:var(--gold)}
+.btn.gold:hover{background:#8c7029;color:var(--yellow)}
+.btn.sm{font-size:9px;padding:10px 12px}
+input,textarea{font-family:var(--body);font-size:15.5px;color:var(--ink);
+  background:#14110b;border:1px solid #000;box-shadow:inset 0 0 0 1px rgba(246,196,66,.10);
+  padding:12px 14px;width:100%;min-width:0}
+textarea{line-height:1.55;resize:vertical}
 input:focus,textarea:focus{outline:2px solid var(--gold);outline-offset:0}
-input::placeholder,textarea::placeholder{color:#7e7259}
-label{font-family:var(--ui);font-size:9px;color:var(--mute);display:block;margin:0 0 7px;text-shadow:1px 1px 0 #000}
+input::placeholder,textarea::placeholder{color:#6e6449}
+label{font-family:var(--ui);font-size:9px;color:var(--mute);display:block;margin:0 0 8px;text-shadow:1px 1px 0 #000}
 
 /* ---------- top strip + nav ---------- */
-.ticker{
-  position:sticky;top:0;z-index:40;border-bottom:2px solid #000;
-  background:#1d1810 var(--chk);background-size:4px 4px;
-  padding:calc(6px + env(safe-area-inset-top,0px)) 0 6px;overflow:hidden;
-}
+.ticker{position:sticky;top:0;z-index:40;border-bottom:1px solid var(--line2);
+  background:#171309;padding:calc(6px + env(safe-area-inset-top,0px)) 0 6px;overflow:hidden}
 .tkin{display:flex;gap:26px;padding:0 16px;font-family:var(--ui);font-size:9px;white-space:nowrap;
-  animation:mar 42s linear infinite;width:max-content}
-.tkin b{color:var(--mute);font-weight:400}
+  animation:mar 46s linear infinite;width:max-content}
+.tkin b{color:var(--dim);font-weight:400}
 .tkin i{font-style:normal;color:var(--gold)}
 .tkin .up{color:var(--green)}.tkin .dn{color:var(--red)}
 @keyframes mar{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @media (prefers-reduced-motion:reduce){.tkin{animation:none}}
 .ticker:hover .tkin{animation-play-state:paused}
 
-.nav{position:sticky;top:29px;z-index:39;border-bottom:2px solid #000;
-  background:#2a241b var(--chk);background-size:4px 4px}
-.navin{max-width:var(--maxw);margin:0 auto;padding:10px 16px;display:grid;
+.nav{position:sticky;top:29px;z-index:39;border-bottom:1px solid var(--line);background:rgba(27,23,16,.95)}
+.navin{max-width:var(--maxw);margin:0 auto;padding:11px 20px;display:grid;
   grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:14px}
-.brand{display:flex;align-items:center;gap:10px;font-family:var(--ui);font-size:13px;color:var(--gold);text-shadow:2px 2px 0 #000}
-.brand img{width:28px;height:28px}
-.nav ul{list-style:none;display:flex;gap:4px;margin:0;padding:0;flex-wrap:wrap;justify-content:center}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--ui);font-size:12px;
+  color:var(--gold);text-shadow:2px 2px 0 #000}
+.brand img{width:24px;height:24px}
+.nav ul{list-style:none;display:flex;gap:2px;margin:0;padding:0;flex-wrap:wrap;justify-content:center}
+.nav ul a{font-family:var(--ui);font-size:9px;color:var(--dim);padding:8px 10px;display:block;text-shadow:1px 1px 0 #000}
+.nav ul a:hover,.nav ul a.on{color:var(--gold)}
 .nav .sp{justify-self:end}
-.nav ul a{font-family:var(--ui);font-size:9px;color:var(--mute);padding:8px 9px;display:block;text-shadow:1px 1px 0 #000}
-.nav ul a:hover,.nav ul a.on{color:var(--gold);background:#3a3122}
 .mb{display:none}
 
-/* ---------- layout ---------- */
-main{max-width:var(--maxw);margin:0 auto;padding:22px 16px 40px}
-section{margin:0 0 22px}
-.sh{font-family:var(--ui);font-size:13px;color:var(--gold);text-shadow:2px 2px 0 #000;
-  display:flex;gap:12px;align-items:baseline;margin:0 0 4px}
-.sh .no{color:var(--red);font-size:11px}
-.sub{color:var(--mute);margin:0 0 14px;max-width:72ch;font-size:16.5px;text-shadow:1px 1px 0 rgba(0,0,0,.5)}
-p{margin:0 0 12px;text-shadow:1px 1px 0 rgba(0,0,0,.5)}
-.grid{display:grid;gap:14px}
-.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
-.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
-.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
-@media(max-width:860px){.g2,.g3,.g4{grid-template-columns:minmax(0,1fr)}}
+/* ---------- flowing sections ---------- */
+.band{border-top:1px solid var(--line)}
+.band.dim{background:rgba(0,0,0,.16)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:68px 20px}
 
-/* ---------- hero ---------- */
-.hero .wb{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,420px);gap:20px;align-items:start}
-@media(max-width:900px){.hero .wb{grid-template-columns:minmax(0,1fr)}}
-.mark{display:flex;gap:16px;align-items:center}
-.mark img{width:104px;height:104px;flex:0 0 auto;border:2px solid #000;box-shadow:inset 0 0 0 1px #6d5a3e}
-.wm{font-family:var(--ui);font-size:34px;color:var(--gold);text-shadow:3px 3px 0 #000;line-height:1;margin:0}
-.tag{font-family:var(--ui);font-size:10px;color:var(--yellow);text-shadow:1px 1px 0 #000;margin:12px 0 0;letter-spacing:.04em}
-.rulebar{height:4px;background:#9e2820;margin:14px 0 0;border:1px solid #000}
-.lead{margin:16px 0 0;font-size:17.5px;max-width:54ch;text-shadow:1px 1px 0 rgba(0,0,0,.5)}
-.cta{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 0}
+/* hero */
+.hero{text-align:center;padding:64px 20px 54px;max-width:var(--maxw);margin:0 auto}
+.hero img.sig{width:120px;height:120px;border:1px solid #000;box-shadow:0 0 0 1px rgba(246,196,66,.2)}
+.wm{font-family:var(--ui);font-size:clamp(28px,7vw,60px);color:var(--gold);
+  text-shadow:4px 4px 0 #000;line-height:1;margin:26px 0 0}
+.tag{font-family:var(--ui);font-size:clamp(8px,1.6vw,11px);color:var(--yellow);
+  text-shadow:1px 1px 0 #000;letter-spacing:.24em;margin:18px 0 0}
+.hrule{height:3px;background:var(--deep);width:min(420px,72%);margin:26px auto 0;box-shadow:0 1px 0 #000}
+.hero p{max-width:60ch;margin:26px auto 0;font-size:18px}
+.hero .cta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin:30px 0 0}
 
-.tabs{display:flex;gap:4px;margin:0 0 -2px;position:relative;z-index:2;flex-wrap:wrap}
-.tab{font-family:var(--ui);font-size:9px;color:var(--mute);background:var(--bar2);border:2px solid #000;
-  border-bottom:none;padding:10px 12px;cursor:pointer;text-shadow:1px 1px 0 #000}
-.tab[aria-selected=true]{background:var(--slot);color:var(--gold)}
-.tpane{padding:14px}
-.kv{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px dashed #4b3f2c;font-size:15px}
+/* the stat rail under the hero */
+.rail{max-width:var(--maxw);margin:0 auto 56px;
+  display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1px;background:var(--line);
+  border:1px solid var(--line)}
+.rail > div{background:var(--bg);padding:18px 12px;text-align:center}
+.rail b{font-family:var(--ui);font-size:8px;color:var(--dim);font-weight:400;display:block;
+  text-shadow:1px 1px 0 #000;letter-spacing:.06em;line-height:1.7}
+.rail i{font-style:normal;font-family:var(--ui);font-size:13px;color:var(--gold);
+  text-shadow:2px 2px 0 #000;display:block;margin-top:10px}
+.rail .dash{color:#6a6049}
+@media(max-width:860px){.rail{grid-template-columns:repeat(2,minmax(0,1fr));margin:0 20px 44px}
+  .rail > div:last-child{grid-column:1/-1}}
+@media(max-width:420px){.rail{grid-template-columns:minmax(0,1fr)}}
+
+/* blocks, no boxes */
+.cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:34px}
+.cols2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px}
+@media(max-width:860px){.cols,.cols2{grid-template-columns:minmax(0,1fr);gap:28px}}
+.blk{border-top:2px solid var(--gold2);padding-top:18px}
+.blk .n{font-family:var(--ui);font-size:9px;color:var(--deep);text-shadow:1px 1px 0 #000;display:block;margin:0 0 12px;line-height:1.7}
+.blk p{color:var(--mute);margin:0}
+
+/* key/value list */
+.kv{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid var(--line)}
 .kv:last-child{border-bottom:none}
-.kv b{font-family:var(--ui);font-size:9px;color:var(--mute);font-weight:400;text-shadow:1px 1px 0 #000}
-.kv i{font-style:normal;color:var(--gold);font-family:var(--ui);font-size:10px}
+.kv b{font-family:var(--ui);font-size:9px;color:var(--mute);font-weight:400;text-shadow:1px 1px 0 #000;line-height:1.8}
+.kv i{font-style:normal;color:var(--gold);font-family:var(--ui);font-size:11px;text-shadow:1px 1px 0 #000;text-align:right;line-height:1.8}
+.kv .dash{color:#6a6049}
 
-/* quests */
-.q{display:flex;gap:10px;align-items:flex-start;padding:7px 0;font-family:var(--ui);font-size:10px;text-shadow:1px 1px 0 #000;line-height:1.5}
-.q s{width:9px;height:9px;flex:0 0 auto;margin-top:2px;border:1px solid #000;display:block}
+/* quest lines */
+.q{display:flex;gap:12px;align-items:flex-start;padding:9px 0;font-family:var(--ui);
+  font-size:10px;text-shadow:1px 1px 0 #000;line-height:1.6}
+.q s{width:9px;height:9px;flex:0 0 auto;margin-top:3px;border:1px solid #000;display:block;text-decoration:none}
 .q.d{color:var(--green)}.q.d s{background:var(--green)}
 .q.p{color:var(--yellow)}.q.p s{background:var(--yellow)}
 .q.n{color:var(--red)}.q.n s{background:var(--red)}
 
-/* ---------- panels/cards ---------- */
-.card{padding:16px}
-.card h3{font-family:var(--ui);font-size:11px;color:var(--gold);text-shadow:1px 1px 0 #000;margin:0 0 10px;line-height:1.5}
-.card p{color:var(--mute);margin:0;text-shadow:1px 1px 0 rgba(0,0,0,.5)}
-.big{font-family:var(--ui);font-size:26px;color:var(--gold);text-shadow:2px 2px 0 #000;display:block;margin:0 0 8px}
-.dash{color:#6f6450}
-
-/* steps */
-.step{padding:16px;position:relative}
-.step .sn{font-family:var(--ui);font-size:28px;color:#4d4130;text-shadow:1px 1px 0 #000;position:absolute;right:12px;top:10px}
-.step h3{margin-right:40px}
-
-/* write panel */
-.wrap2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,380px);gap:16px;align-items:start}
-@media(max-width:900px){.wrap2{grid-template-columns:minmax(0,1fr)}}
-.row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+/* the scribe */
+.scribe{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:44px;align-items:start}
+@media(max-width:900px){.scribe{grid-template-columns:minmax(0,1fr);gap:34px}}
+.row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
 @media(max-width:620px){.row{grid-template-columns:minmax(0,1fr)}}
-.fld{margin:0 0 14px}
-.hint{font-family:var(--ui);font-size:9px;color:#a2957c;margin:7px 0 0;line-height:1.95;text-shadow:1px 1px 0 #000}
-.count{float:right;color:var(--mute)}
-.who{display:flex;gap:12px;align-items:center;padding:12px;margin:10px 0 0}
-.who img{width:48px;height:48px;border:2px solid #000;image-rendering:auto;flex:0 0 auto;background:#1a150e}
-.who .nm{font-family:var(--ui);font-size:10px;color:var(--gold);text-shadow:1px 1px 0 #000;line-height:1.6}
-.who .mt{font-family:var(--ui);font-size:8px;color:var(--mute);text-shadow:1px 1px 0 #000;margin-top:5px}
+.fld{margin:0 0 20px}
+.count{float:right;color:var(--dim)}
+.who{display:flex;gap:14px;align-items:center;padding:14px 0 0;margin:12px 0 0;border-top:1px solid var(--line)}
+.who img{width:46px;height:46px;image-rendering:auto;flex:0 0 auto;background:#14110b;border:1px solid #000}
+.who .nm{font-family:var(--ui);font-size:10px;color:var(--gold);text-shadow:1px 1px 0 #000;line-height:1.7}
+.who .mt{font-family:var(--ui);font-size:8px;color:var(--dim);text-shadow:1px 1px 0 #000;margin-top:6px;line-height:1.8}
 
-.seal{padding:16px;text-align:center}
-.seal .code{font-family:var(--ui);font-size:20px;color:var(--gold);text-shadow:2px 2px 0 #000;display:block;margin:10px 0;word-break:break-all}
-.lab{font-family:var(--ui);font-size:9px;color:var(--mute);text-shadow:1px 1px 0 #000;letter-spacing:.02em}
-.keyprev{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;line-height:1.7;color:#d8c98f;word-break:break-all;max-height:112px;overflow:auto;-webkit-font-smoothing:antialiased}
-.sealbody{text-align:left;margin:12px 0 0;padding:12px;max-height:210px;overflow:auto;white-space:pre-wrap;color:var(--paper);font-size:15px}
+.sealwrap{border-top:2px solid var(--gold2);padding-top:22px}
+.sealcode{font-family:var(--ui);font-size:clamp(16px,3.2vw,23px);color:var(--gold);
+  text-shadow:2px 2px 0 #000;display:block;margin:12px 0;word-break:break-all;line-height:1.5}
+.lab{font-family:var(--ui);font-size:9px;color:var(--dim);text-shadow:1px 1px 0 #000;letter-spacing:.08em;line-height:1.9}
+.keyprev{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;line-height:1.75;
+  color:#cdbd85;word-break:break-all;max-height:110px;overflow:auto;-webkit-font-smoothing:antialiased;
+  border-left:2px solid var(--line);padding-left:12px;margin-top:10px}
+.sealbody{white-space:pre-wrap;color:var(--ink);font-size:15.5px;max-height:190px;overflow:auto;
+  border-left:2px solid var(--deep);padding-left:14px;margin:14px 0 0}
 
 /* ledger */
-.tw{overflow-x:auto;border:2px solid #000}
-table{border-collapse:collapse;width:100%;min-width:560px;background:var(--slot)}
-th,td{padding:11px 12px;text-align:left;border-bottom:1px solid #4b3f2c;font-size:15px}
-th{font-family:var(--ui);font-size:8px;color:var(--mute);background:var(--bar);text-shadow:1px 1px 0 #000;white-space:nowrap}
-td b{font-family:var(--ui);font-size:9px;color:var(--gold);font-weight:400}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:560px}
+th,td{padding:14px 14px 14px 0;text-align:left;border-bottom:1px solid var(--line);font-size:15.5px}
+th{font-family:var(--ui);font-size:8px;color:var(--dim);text-shadow:1px 1px 0 #000;
+  white-space:nowrap;letter-spacing:.08em;border-bottom:1px solid var(--gold2)}
 tbody tr:last-child td{border-bottom:none}
-.empty{padding:26px 14px;text-align:center;color:#8b7f66;font-family:var(--ui);font-size:9px;line-height:2;text-shadow:1px 1px 0 #000}
+.empty{padding:38px 0;text-align:center;color:var(--dim);font-family:var(--ui);font-size:9px;
+  line-height:2.2;text-shadow:1px 1px 0 #000}
+.figs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);
+  border:1px solid var(--line);margin:26px 0 0}
+.figs > div{background:var(--bg);padding:20px 16px}
+.big{font-family:var(--ui);font-size:clamp(14px,2.2vw,19px);color:var(--gold);
+  text-shadow:2px 2px 0 #000;display:block;margin:0 0 10px;line-height:1.5}
+.big.dash{color:#6a6049}
+.figs p{font-family:var(--ui);font-size:8px;color:var(--dim);margin:0;letter-spacing:.08em;text-shadow:1px 1px 0 #000;line-height:1.7}
+@media(max-width:760px){.figs{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
-/* maths */
-.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
-@media(max-width:820px){.split{grid-template-columns:minmax(0,1fr)}}
-.bar3{display:flex;height:34px;border:2px solid #000;margin:14px 0 8px;overflow:hidden}
-.bar3 span{display:block;height:100%;font-family:var(--ui);font-size:8px;color:#1a1409;
-  display:flex;align-items:center;justify-content:center;overflow:hidden;white-space:nowrap}
-.bar3 .a{background:var(--gold)}.bar3 .b{background:#8a7a3e;color:#eee}.bar3 .c{background:#4a4030;color:#bbb}
-input[type=range]{-webkit-appearance:none;appearance:none;background:#201b13;height:20px;padding:0;
-  border:2px solid #000;box-shadow:inset 1px 1px 0 #17130d}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:16px;background:var(--gold);
+/* the split */
+.bar3{display:flex;height:38px;border:1px solid #000;margin:22px 0 10px;overflow:hidden}
+.bar3 span{display:flex;align-items:center;justify-content:center;height:100%;
+  font-family:var(--ui);font-size:8px;color:#1a1409;overflow:hidden;white-space:nowrap}
+.bar3 .a{background:var(--gold)}.bar3 .b{background:#8a7a3e;color:#f0eee6}.bar3 .c{background:#3a3226;color:#b6a887}
+input[type=range]{-webkit-appearance:none;appearance:none;background:#14110b;height:22px;padding:0;
+  border:1px solid #000;box-shadow:inset 0 0 0 1px rgba(246,196,66,.10)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;background:var(--gold);
   border:2px solid #000;cursor:pointer}
-input[type=range]::-moz-range-thumb{width:18px;height:16px;background:var(--gold);border:2px solid #000;cursor:pointer;border-radius:0}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;background:var(--gold);border:2px solid #000;
+  cursor:pointer;border-radius:0}
+.pairs{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:1px;background:var(--line);
+  border:1px solid var(--line);margin:18px 0 0}
+.pairs > div{background:var(--bg);padding:14px 6px;text-align:center}
+.pairs b{font-family:var(--ui);font-size:8px;color:var(--gold);display:block;text-shadow:1px 1px 0 #000}
+.pairs span{display:block;margin-top:8px;font-size:14px;color:var(--ink)}
+.pairs span.no{color:#6a6049;font-size:12px}
+@media(max-width:700px){.pairs{grid-template-columns:repeat(3,minmax(0,1fr))}}
 
 /* faq */
-details{border:2px solid #000;background:var(--slot) var(--chk);background-size:4px 4px;margin:0 0 10px}
-summary{font-family:var(--ui);font-size:10px;color:var(--gold);padding:14px;cursor:pointer;
-  text-shadow:1px 1px 0 #000;line-height:1.6;list-style:none}
+details{border-bottom:1px solid var(--line)}
+summary{font-family:var(--ui);font-size:10px;color:var(--gold);padding:20px 0;cursor:pointer;
+  text-shadow:1px 1px 0 #000;line-height:1.8;list-style:none;display:flex;gap:12px}
 summary::-webkit-details-marker{display:none}
-summary::before{content:'▸ ';color:var(--orange)}
-details[open] summary::before{content:'▾ '}
-details .a{padding:0 14px 14px;color:var(--mute);font-size:16px;line-height:1.7;text-shadow:1px 1px 0 rgba(0,0,0,.5)}
+summary::before{content:'▸';color:var(--deep);flex:0 0 auto}
+details[open] summary::before{content:'▾'}
+details .a{padding:0 0 22px 24px;color:var(--mute);max-width:74ch}
 
-
-/* xp drops + level up */
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-/* loading screen */
-.load{position:fixed;inset:0;z-index:200;background:#17130d var(--chk);background-size:4px 4px;
-  display:flex;align-items:center;justify-content:center;overflow:hidden}
-html:not(.js) .load{display:none}
-html.loading{overflow:hidden}
-html.loading body{overflow:hidden}
-.load.out{opacity:0;pointer-events:none;transition:opacity .3s steps(4)}
-.loadbox{position:relative;width:330px;height:330px;display:flex;align-items:center;justify-content:center}
-.loadbox img{width:112px;height:112px;image-rendering:pixelated;position:relative;z-index:2;
-  border:2px solid #000;box-shadow:inset 0 0 0 1px #6d5a3e;animation:beat 1.6s steps(1) infinite}
-@keyframes beat{0%{filter:brightness(1.18)}25%{filter:brightness(1.06)}50%{filter:brightness(.92)}75%{filter:brightness(1.06)}}
-.ring{position:absolute;inset:0;z-index:1}
-.ring i{position:absolute;left:50%;top:50%;width:9px;height:9px;margin:-4px 0 0 -4px;background:var(--gold);
-  box-shadow:0 0 0 1px #000;opacity:.12;
-  transform:rotate(calc(var(--i)*30deg)) translateY(-118px) rotate(calc(var(--i)*-30deg));
-  animation:blip 1.44s steps(1) infinite;animation-delay:calc(var(--i)*-0.12s)}
-@keyframes blip{0%{opacity:1}8%{opacity:.75}16%{opacity:.5}24%{opacity:.3}32%,100%{opacity:.12}}
-.ring2{position:absolute;inset:0;z-index:1}
-.ring2 i{position:absolute;left:50%;top:50%;width:5px;height:5px;margin:-2px 0 0 -2px;background:#9e2820;
-  box-shadow:0 0 0 1px #000;opacity:.5;
-  transform:rotate(calc(var(--i)*45deg + 22deg)) translateY(-82px);
-  animation:spin2 2.6s steps(1) infinite;animation-delay:calc(var(--i)*-0.32s)}
-@keyframes spin2{0%{opacity:.9;background:var(--gold)}20%{opacity:.5;background:#9e2820}100%{opacity:.25;background:#9e2820}}
-.embers{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
-.embers b{position:absolute;bottom:-8px;width:3px;height:3px;background:var(--gold);opacity:0;
-  animation:ember 3.6s linear infinite}
-@keyframes ember{0%{opacity:0;transform:translateY(0)}
-  10%{opacity:.85}60%{opacity:.5}100%{opacity:0;transform:translateY(-420px)}}
-.loadbar{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:248px;height:18px;
-  border:2px solid #000;background:#0d0a06;box-shadow:inset 1px 1px 0 #000,inset -1px -1px 0 #46392a;padding:2px;z-index:3}
-.loadbar i{display:block;height:100%;width:0%;background:#9e2820;
-  box-shadow:inset 0 2px 0 #c4362b,inset 0 -2px 0 #6d1a14;transition:width .22s steps(5)}
-@media(prefers-reduced-motion:reduce){.ring i,.ring2 i,.embers b,.loadbox img{animation:none}}
-@media(max-width:520px){.loadbox{width:250px;height:250px}.loadbox img{width:84px;height:84px}.loadbar{width:200px}
-  .ring i{transform:rotate(calc(var(--i)*30deg)) translateY(-92px) rotate(calc(var(--i)*-30deg))}
-  .ring2 i{transform:rotate(calc(var(--i)*45deg + 22deg)) translateY(-66px)}}
-
-.xpl{position:fixed;inset:0;pointer-events:none;z-index:60}
-.xp{position:absolute;font-family:var(--ui);font-size:12px;color:var(--yellow);text-shadow:2px 2px 0 #000;
-  animation:rise 1.5s ease-out forwards}
-@keyframes rise{0%{opacity:0;transform:translateY(8px)}15%{opacity:1}100%{opacity:0;transform:translateY(-46px)}}
-.lvl{position:fixed;left:50%;top:22%;transform:translateX(-50%);z-index:70;width:min(440px,92vw);
-  border:2px solid #000;background:#60513a var(--chk);background-size:4px 4px;
-  box-shadow:inset 1px 1px 0 var(--lit),inset -1px -1px 0 var(--drk),0 0 0 4px rgba(0,0,0,.45);padding:18px;text-align:center}
-.lvl h4{font-family:var(--ui);font-size:12px;color:var(--yellow);text-shadow:2px 2px 0 #000;margin:0 0 12px;line-height:1.7}
-.lvl p{font-family:var(--ui);font-size:9px;color:var(--paper);text-shadow:1px 1px 0 #000;line-height:2;margin:0 0 14px}
-
-footer{border-top:2px solid #000;background:#221d15 var(--chk);background-size:4px 4px;margin-top:8px}
-.fin{max-width:var(--maxw);margin:0 auto;padding:22px 16px;display:flex;gap:16px;flex-wrap:wrap;justify-content:space-between;align-items:center}
-.flinks{display:flex;gap:14px}
+/* footer */
+footer{border-top:1px solid var(--line);background:rgba(0,0,0,.2)}
+.fin{max-width:var(--maxw);margin:0 auto;padding:30px 20px calc(30px + env(safe-area-inset-bottom,0px));
+  display:flex;gap:18px;flex-wrap:wrap;justify-content:space-between;align-items:center}
+.flinks{display:flex;gap:18px}
 .flinks a{font-family:var(--ui);font-size:9px;text-shadow:1px 1px 0 #000}
 
+/* reveal */
 .rv{opacity:1}
 html.js .rv{opacity:0;transform:translateY(10px)}
 html.js .rv.in{opacity:1;transform:none;transition:opacity .4s steps(4),transform .4s steps(4)}
 @media (prefers-reduced-motion:reduce){html.js .rv{opacity:1;transform:none}}
 
+/* xp drops */
+.xpl{position:fixed;inset:0;pointer-events:none;z-index:60}
+.xp{position:absolute;font-family:var(--ui);font-size:12px;color:var(--yellow);
+  text-shadow:2px 2px 0 #000;animation:rise 1.4s steps(8) forwards}
+@keyframes rise{0%{opacity:0;transform:translateY(8px)}15%{opacity:1}100%{opacity:0;transform:translateY(-44px)}}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* level up */
+.lvl{position:fixed;left:50%;top:20%;transform:translateX(-50%);z-index:70;width:min(430px,92vw);
+  border:2px solid #000;background:#2d2519;box-shadow:0 0 0 1px rgba(246,196,66,.3),0 10px 0 rgba(0,0,0,.35);
+  padding:24px;text-align:center}
+.lvl h4{font-family:var(--ui);font-size:12px;color:var(--yellow);text-shadow:2px 2px 0 #000;
+  margin:0 0 14px;line-height:1.8}
+.lvl p{font-family:var(--ui);font-size:9px;color:var(--ink);text-shadow:1px 1px 0 #000;
+  line-height:2.1;margin:0 0 18px}
+
+/* ---------- loading screen ---------- */
+.load{position:fixed;inset:0;z-index:200;background:#0b0906;
+  display:flex;align-items:center;justify-content:center;overflow:hidden}
+html:not(.js) .load{display:none}
+html.loading,html.loading body{overflow:hidden}
+.load.out{opacity:0;pointer-events:none;transition:opacity .22s steps(3)}
+.loadbox{position:relative;width:300px;max-width:84vw;text-align:center}
+.loadbox img{width:96px;height:96px;image-rendering:pixelated;animation:beat .9s steps(1) infinite}
+@keyframes beat{0%{filter:brightness(1.22)}33%{filter:brightness(1)}66%{filter:brightness(.84)}}
+.ring{position:absolute;left:50%;top:48px;width:0;height:0}
+.ring i{position:absolute;width:7px;height:7px;margin:-3px 0 0 -3px;background:var(--gold);opacity:.1;
+  transform:rotate(calc(var(--i)*30deg)) translateY(-98px) rotate(calc(var(--i)*-30deg));
+  animation:blip .78s steps(1) infinite;animation-delay:calc(var(--i)*-0.065s)}
+@keyframes blip{0%{opacity:1}10%{opacity:.6}20%{opacity:.32}30%,100%{opacity:.1}}
+.embers{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.embers b{position:absolute;bottom:-6px;width:2px;height:2px;background:var(--gold);opacity:0;
+  animation:ember 2.1s linear infinite}
+@keyframes ember{0%{opacity:0;transform:translateY(0)}12%{opacity:.8}100%{opacity:0;transform:translateY(-340px)}}
+.loadbar{margin:34px auto 0;width:100%;height:20px;border:1px solid #a89468;background:#0b0906;padding:2px}
+.loadbar i{display:block;height:100%;width:0%;background:var(--deep);transition:width .1s steps(3)}
+@media(prefers-reduced-motion:reduce){.ring i,.embers b,.loadbox img{animation:none}}
+
 @media(max-width:780px){
   .navin{display:flex;flex-wrap:wrap}
   .nav .sp{display:none}
   .nav ul{display:none}
-  .nav ul.open{display:flex;flex-direction:column;width:100%;order:3;gap:0;margin:8px 0 4px}
-  .nav ul.open a{padding:11px 4px}
+  .nav ul.open{display:flex;flex-direction:column;width:100%;order:3;gap:0;margin:8px 0 2px}
+  .nav ul.open a{padding:12px 2px}
   .mb{display:inline-flex;margin-left:auto}
-  .navin{flex-wrap:wrap}
-  .wm{font-size:26px}
-  .mark img{width:76px;height:76px}
-  body{font-size:15.5px}
+  .wrap{padding:52px 20px}
+  .hero{padding:44px 20px 40px}
+  .hero img.sig{width:92px;height:92px}
+  body{font-size:16px}
 }
 </style>
 </head>
 <body>
 
 <div class="load" id="load">
-  <div class="embers"><b style="left:7%;animation-delay:0.00s;animation-duration:3.8s"></b><b style="left:16%;animation-delay:1.40s;animation-duration:4.4s"></b><b style="left:24%;animation-delay:2.60s;animation-duration:3.2s"></b><b style="left:33%;animation-delay:0.60s;animation-duration:4.0s"></b><b style="left:41%;animation-delay:3.10s;animation-duration:3.6s"></b><b style="left:49%;animation-delay:1.90s;animation-duration:4.6s"></b><b style="left:58%;animation-delay:0.30s;animation-duration:3.4s"></b><b style="left:66%;animation-delay:2.20s;animation-duration:4.2s"></b><b style="left:74%;animation-delay:1.10s;animation-duration:3.9s"></b><b style="left:83%;animation-delay:3.40s;animation-duration:3.3s"></b><b style="left:91%;animation-delay:0.90s;animation-duration:4.5s"></b><b style="left:96%;animation-delay:2.80s;animation-duration:3.7s"></b></div>
+  <div class="embers"></div>
   <div class="loadbox">
-    <div class="ring"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><i style="--i:5"></i><i style="--i:6"></i><i style="--i:7"></i><i style="--i:8"></i><i style="--i:9"></i><i style="--i:10"></i><i style="--i:11"></i></div>
-    <div class="ring2"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><i style="--i:5"></i><i style="--i:6"></i><i style="--i:7"></i></div>
-    <img src="assets/pfp.png" alt="" width="112" height="112">
+    <div class="ring"></div>
+    <img src="assets/pfp.png" alt="" width="96" height="96">
     <div class="loadbar"><i id="lb"></i></div>
   </div>
 </div>
@@ -331,303 +308,265 @@ html.js .rv.in{opacity:1;transform:none;transition:opacity .4s steps(4),transfor
 
 <main>
 
-<!-- ============ HERO ============ -->
 <section id="top" class="hero">
-  <div class="win riv"><div class="rv2"></div>
-    <div class="wh"><span>LOREPAD — LAUNCH INTERFACE</span><span class="n" id="hstat">READY</span></div>
-    <div class="wb">
+  <img class="sig" src="assets/pfp.png" alt="LOREPAD mark: a glowing open book" width="120" height="120">
+  <h1 class="wm">LOREPAD</h1>
+  <div class="tag">NO LORE, NO LAUNCH</div>
+  <div class="hrule"></div>
+  <p>Every coin that launches here ships with lore. You write it once, before the first trade, and it is sealed to the contract. It cannot be edited afterwards — not by you, not by us.</p>
+  <p style="color:var(--mute);font-size:16.5px">A ticker with nothing behind it is a ticker. A ticker with a story somebody signed is a thing people can hold an opinion about.</p>
+  <div class="cta">
+    <a class="btn gold" href="#write">WRITE THE LORE</a>
+    <a class="btn" href="#verify">VERIFY A SEAL</a>
+    <a class="btn" href="docs.html">READ THE DOCS</a>
+  </div>
+</section>
+
+<div class="rail">
+  <div><b>LORE SEALED</b><i id="s-sealed">0</i></div>
+  <div><b>SEALS VERIFIED</b><i id="s-ver">0</i></div>
+  <div><b>COINS LAUNCHED</b><i class="dash" id="s-coins">—</i></div>
+  <div><b>CONTRACT</b><i class="dash">NOT LIVE</i></div>
+  <div><b>CHAIN</b><i>ROBINHOOD</i></div>
+</div>
+
+<section id="rule" class="band rv">
+  <div class="wrap">
+    <span class="eyebrow">01 — THE RULE</span>
+    <h2>One rule, and it is<br>the whole product.</h2>
+    <p class="lede">Everything else on this page exists to make that rule checkable by a stranger who has no reason to trust us.</p>
+    <div class="cols">
+      <div class="blk">
+        <span class="n">WRITTEN AT LAUNCH</span>
+        <p>The lore goes in before the first trade, in the same transaction that creates the coin. There is no launch without it — an empty field does not deploy.</p>
+      </div>
+      <div class="blk">
+        <span class="n">NEVER EDITED</span>
+        <p>The seal is written to the contract. Editing the text produces a different seal, so a changed story is provable from the outside without asking anyone.</p>
+      </div>
+      <div class="blk">
+        <span class="n">READ BY EVERYONE</span>
+        <p>The lore is public from block one, attached to the ticker wherever it appears. Nobody has to go and find a Telegram to learn what a coin claims to be.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="write" class="band dim rv">
+  <div class="wrap">
+    <span class="eyebrow">02 — THE SCRIBE</span>
+    <h2>Write the lore.</h2>
+    <p class="lede">This is the real thing, running in your browser. The handle check reads live from X. The seal is computed the same way the contract computes it — no server ever sees your text.</p>
+
+    <div class="scribe">
       <div>
-        <div class="mark">
-          <img src="assets/pfp.png" alt="LOREPAD mark: a glowing open book" width="104" height="104">
-          <div>
-            <h1 class="wm">LOREPAD</h1>
-            <div class="tag">NO LORE, NO LAUNCH</div>
+        <div class="row">
+          <div class="fld">
+            <label for="f-name">COIN NAME</label>
+            <input id="f-name" placeholder="The Empty Ledger" maxlength="40" autocomplete="off">
+          </div>
+          <div class="fld">
+            <label for="f-tick">TICKER</label>
+            <input id="f-tick" placeholder="LEDGER" maxlength="10" autocomplete="off">
           </div>
         </div>
-        <div class="rulebar"></div>
-        <p class="lead">Every coin that launches here ships with lore. You write it once, before the first trade, and it is sealed to the contract. It cannot be edited afterwards — not by you, not by us.</p>
-        <p class="lead" style="color:var(--mute);font-size:16px">A ticker with nothing behind it is a ticker. A ticker with a story somebody signed is a thing people can hold an opinion about.</p>
-        <div class="cta">
-          <a class="btn gold" href="#write">WRITE THE LORE</a>
-          <a class="btn" href="#verify">VERIFY A SEAL</a>
-          <a class="btn" href="docs.html">READ THE DOCS</a>
+
+        <div class="fld">
+          <label for="f-h">FOUNDER — X HANDLE</label>
+          <div class="row" style="grid-template-columns:minmax(0,1fr) auto">
+            <input id="f-h" placeholder="@handle" maxlength="16" autocomplete="off" spellcheck="false">
+            <button class="btn" id="b-check">CHECK HANDLE</button>
+          </div>
+          <div class="who" id="who" hidden>
+            <img id="who-a" alt="" width="46" height="46">
+            <div><div class="nm" id="who-n"></div><div class="mt" id="who-m"></div></div>
+          </div>
+          <p class="note">Read live from X the moment you press the button. Nothing is stored. If the account does not exist, this says so instead of guessing.</p>
+        </div>
+
+        <div class="fld">
+          <label for="f-lore">THE LORE <span class="count" id="cnt">0 / 1200</span></label>
+          <textarea id="f-lore" rows="9" maxlength="1200" placeholder="Why does this coin exist? Who made it, and what were they actually trying to say? Write it the way you would want to read it in a year, because this is the version that survives."></textarea>
+          <p class="note">Plain text. Line breaks are kept. Everything you type is part of the seal, including the spaces.</p>
+        </div>
+
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <button class="btn gold" id="b-seal">SEAL THE LORE</button>
+          <button class="btn" id="b-clear">CLEAR</button>
         </div>
       </div>
 
       <div>
-        <div class="tabs" role="tablist">
-          <button class="tab" role="tab" aria-selected="true" data-t="t1">STATS</button>
-          <button class="tab" role="tab" aria-selected="false" data-t="t2">QUESTS</button>
-          <button class="tab" role="tab" aria-selected="false" data-t="t3">HOW</button>
+        <div class="sealwrap">
+          <div class="lab">SEAL</div>
+          <span class="sealcode" id="seal-code">LORE-·······</span>
+          <div class="lab" id="seal-meta">NOTHING SEALED YET</div>
+          <div class="sealbody" id="seal-body" hidden></div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px">
+            <button class="btn sm" id="b-copy" disabled>COPY SEAL</button>
+            <button class="btn sm" id="b-post" disabled>COPY POST</button>
+          </div>
         </div>
-        <div class="sunk">
-          <div class="tpane" id="t1">
-            <div class="kv"><b>LORE SEALED</b><i id="s-sealed">0</i></div>
-            <div class="kv"><b>COINS LAUNCHED</b><i class="dash" id="s-coins">—</i></div>
-            <div class="kv"><b>SEALS VERIFIED</b><i id="s-ver">0</i></div>
-            <div class="kv"><b>CONTRACT</b><i class="dash" id="s-ca">NOT LIVE</i></div>
-            <div class="kv"><b>CHAIN</b><i>ROBINHOOD</i></div>
-            <p class="hint">A dash is the honest number. These fill in from the chain the moment a contract exists — nothing here is seeded.</p>
-          </div>
-          <div class="tpane" id="t2" hidden>
-            <div class="q d"><s></s>THE FIRST ENTRY</div>
-            <div class="q d"><s></s>SEAL ALGORITHM PUBLISHED</div>
-            <div class="q d"><s></s>VERIFIER OPEN TO ALL</div>
-            <div class="q p"><s></s>PAIRED STOCK VAULTS</div>
-            <div class="q n"><s></s>THE EMPTY LEDGER</div>
-            <div class="q n"><s></s>YOUR LORE HERE</div>
-            <p class="hint">Green done · yellow in progress · red not started.</p>
-          </div>
-          <div class="tpane" id="t3" hidden>
-            <div class="kv"><b>01 NAME IT</b><i>TICKER</i></div>
-            <div class="kv"><b>02 SIGN IT</b><i>X HANDLE</i></div>
-            <div class="kv"><b>03 WRITE IT</b><i>THE LORE</i></div>
-            <div class="kv"><b>04 SEAL IT</b><i>FOREVER</i></div>
-            <p class="hint">The seal is a hash of the ticker, the handle and the lore. Change one character and the seal changes, which is how anyone can prove an edit.</p>
-          </div>
+
+        <div style="margin-top:32px">
+          <div class="lab">THE KEY BEING HASHED — LIVE</div>
+          <div class="keyprev" id="keyprev">·|·|·</div>
+          <p class="note">FNV-1a over <code>ticker|handle|lore</code>, the same function the verifier uses. Four lines of code, published in the docs.</p>
+        </div>
+
+        <div style="margin-top:32px">
+          <div class="lab" style="display:block;margin-bottom:8px">WHAT HAPPENS NEXT</div>
+          <div class="q n" id="st1"><s></s>01 NAME THE COIN</div>
+          <div class="q n" id="st2"><s></s>02 SIGN IT WITH A HANDLE</div>
+          <div class="q n" id="st3"><s></s>03 WRITE 40+ CHARACTERS</div>
+          <div class="q n" id="st4"><s></s>04 SEAL IT — PERMANENT</div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ 01 THE RULE ============ -->
-<section id="rule" class="rv">
-  <h2 class="sh"><span class="no">01</span> The rule</h2>
-  <p class="sub">One rule, and it is the whole product. Everything else on this page exists to make the rule checkable by a stranger.</p>
-  <div class="grid g3">
-    <div class="win card riv"><div class="rv2"></div>
-      <h3>WRITTEN AT LAUNCH</h3>
-      <p>The lore goes in before the first trade, in the same transaction that creates the coin. There is no launch without it — an empty field does not deploy.</p>
+<section id="ledger" class="band rv">
+  <div class="wrap">
+    <span class="eyebrow">03 — THE LEDGER</span>
+    <h2>Every coin, with its seal.</h2>
+    <p class="lede">It ships empty and stays empty until a real coin is launched. There is no placeholder row anywhere on this page.</p>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>TICKER</th><th>FOUNDER</th><th>SEAL</th><th>LAUNCHED</th><th>HOLDERS</th></tr></thead>
+        <tbody><tr><td colspan="5"><div class="empty">NO COIN HAS LAUNCHED YET.<br>THIS TABLE FILLS ITSELF FROM THE CHAIN.</div></td></tr></tbody>
+      </table>
     </div>
-    <div class="win card riv"><div class="rv2"></div>
-      <h3>NEVER EDITED</h3>
-      <p>The seal is written to the contract. Editing the text produces a different seal, so a changed story is provable from the outside without asking anyone.</p>
+
+    <h3 style="margin-top:52px">RUN IT ON A COIN THAT ALREADY TRADES</h3>
+    <p class="lede" style="margin-bottom:18px">Paste any Robinhood Chain contract address. This reads holders from the chain explorer and price, market cap and 24h volume from Dexscreener, then applies the split below. Nothing is estimated.</p>
+    <div class="row" style="grid-template-columns:minmax(0,1fr) auto">
+      <input id="f-ca" placeholder="0x… contract address on Robinhood Chain" spellcheck="false" value="0x32fad9f482eb629dc7cb078824763e59441ee076">
+      <button class="btn" id="b-read">READ IT</button>
     </div>
-    <div class="win card riv"><div class="rv2"></div>
-      <h3>READ BY EVERYONE</h3>
-      <p>The lore is public from block one, attached to the ticker wherever it appears. Nobody has to go and find a Telegram to learn what a coin claims to be.</p>
+    <div class="figs">
+      <div><span class="big dash" id="r-holders">—</span><p>HOLDERS</p></div>
+      <div><span class="big dash" id="r-mcap">—</span><p>MARKET CAP</p></div>
+      <div><span class="big dash" id="r-vol">—</span><p>24H VOLUME</p></div>
+      <div><span class="big dash" id="r-fee">—</span><p>24H TO THE VAULT</p></div>
+    </div>
+    <p class="note" id="r-note">Sources appear here once you read an address.</p>
+  </div>
+</section>
+
+<section id="split" class="band dim rv">
+  <div class="wrap">
+    <span class="eyebrow">04 — WHERE THE MONEY GOES</span>
+    <h2>One percent, split<br>in the open.</h2>
+    <p class="lede">Pons takes one percent of every trade. That is the protocol's fee, not ours, and it is split 70 / 30 between the creator and Pons. All of the arithmetic below happens inside the 0.70% the creator controls.</p>
+
+    <div class="cols2">
+      <div>
+        <div class="kv"><b>PONS FEE, EVERY TRADE</b><i>1.00%</i></div>
+        <div class="kv"><b>CREATOR SHARE</b><i>0.70%</i></div>
+        <div class="kv"><b>TO THE SCRIBE</b><i id="sp-scribe">0.210%</i></div>
+        <div class="kv"><b>TO THE LORE VAULT</b><i id="sp-vault">0.490%</i></div>
+        <div class="kv"><b>PROTOCOL, NEVER OURS</b><i class="dash">0.300%</i></div>
+
+        <div class="bar3" id="bar">
+          <span class="a" id="bar-a"></span><span class="b" id="bar-b"></span><span class="c">PONS</span>
+        </div>
+        <label for="sl" style="margin-top:18px">SCRIBE SHARE OF THE CREATOR FEE — <span id="sl-v">30</span>%</label>
+        <input type="range" id="sl" min="0" max="50" value="30" step="1">
+        <p class="note">The scribe is whoever wrote the lore. Their share is escrowed from the first trade and claimed by posting their seal from the handle it was signed with. If nobody claims it, it stays escrowed.</p>
+      </div>
+
+      <div>
+        <label for="f-vol">24H VOLUME TO MODEL</label>
+        <input id="f-vol" type="text" inputmode="numeric" value="1000000">
+        <div style="margin-top:18px">
+          <div class="kv"><b>PONS COLLECTS</b><i id="m-pons">$10,000</i></div>
+          <div class="kv"><b>CREATOR SHARE</b><i id="m-creator">$7,000</i></div>
+          <div class="kv"><b>TO THE SCRIBE</b><i id="m-scribe">$2,100</i></div>
+          <div class="kv"><b>TO THE VAULT</b><i id="m-vault">$4,900</i></div>
+        </div>
+        <p class="note">The vault pays out to holders in the stock the coin is paired to. Six to pick from at launch, read live — if a price is missing the page says so rather than filling it in.</p>
+        <div class="pairs" id="pairs"></div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ============ 02 WRITE ============ -->
-<section id="write" class="rv">
-  <h2 class="sh"><span class="no">02</span> Write the lore</h2>
-  <p class="sub">This is the real thing, running in your browser. The handle check reads live from X. The seal is computed the same way the contract computes it — no server sees your text.</p>
+<section id="verify" class="band rv">
+  <div class="wrap">
+    <span class="eyebrow">05 — THE VERIFIER</span>
+    <h2>You don't have<br>to trust us.</h2>
+    <p class="lede">Paste a coin's lore and the seal it claims. If one character has moved, this will not match. It runs entirely in your browser — there is no server call to make.</p>
 
-  <div class="win riv"><div class="rv2"></div>
-    <div class="wh"><span>SCRIBE</span><span class="n" id="wstat">AWAITING INPUT</span></div>
-    <div class="wb">
-      <div class="wrap2">
-        <div>
-          <div class="row">
-            <div class="fld">
-              <label for="f-name">COIN NAME</label>
-              <input id="f-name" placeholder="The Empty Ledger" maxlength="40" autocomplete="off">
-            </div>
-            <div class="fld">
-              <label for="f-tick">TICKER</label>
-              <input id="f-tick" placeholder="LEDGER" maxlength="10" autocomplete="off">
-            </div>
-          </div>
-
-          <div class="fld">
-            <label for="f-h">FOUNDER — X HANDLE</label>
-            <div class="row" style="grid-template-columns:minmax(0,1fr) auto">
-              <input id="f-h" placeholder="@handle" maxlength="16" autocomplete="off" spellcheck="false">
-              <button class="btn" id="b-check">CHECK HANDLE</button>
-            </div>
-            <div class="sunk who" id="who" hidden>
-              <img id="who-a" alt="" width="48" height="48">
-              <div>
-                <div class="nm" id="who-n"></div>
-                <div class="mt" id="who-m"></div>
-              </div>
-            </div>
-            <p class="hint">Read live from X at the moment you press the button. Nothing is stored. If the account does not exist, this says so instead of guessing.</p>
-          </div>
-
-          <div class="fld">
-            <label for="f-lore">THE LORE <span class="count" id="cnt">0 / 1200</span></label>
-            <textarea id="f-lore" rows="8" maxlength="1200" placeholder="Why does this coin exist? Who made it, and what were they actually trying to say? Write it the way you would want to read it in a year, because this is the version that survives."></textarea>
-            <p class="hint">Plain text. Line breaks are kept. Everything you type is part of the seal, including the spaces.</p>
-          </div>
-
-          <div class="cta" style="margin-top:0">
-            <button class="btn gold" id="b-seal">SEAL THE LORE</button>
-            <button class="btn" id="b-clear">CLEAR</button>
-          </div>
+    <div class="cols2">
+      <div>
+        <div class="row">
+          <div class="fld"><label for="v-t">TICKER</label><input id="v-t" placeholder="LEDGER" maxlength="10" autocomplete="off"></div>
+          <div class="fld"><label for="v-h">HANDLE</label><input id="v-h" placeholder="@handle" maxlength="16" autocomplete="off" spellcheck="false"></div>
         </div>
-
-        <div>
-          <div class="sunk seal">
-            <div class="lab">SEAL</div>
-            <span class="code" id="seal-code">LORE-·······</span>
-            <div class="lab" id="seal-meta">NOTHING SEALED YET</div>
-            <div class="sunk sealbody" id="seal-body" hidden></div>
-            <div class="cta" style="justify-content:center;margin-top:14px">
-              <button class="btn sm" id="b-copy" disabled>COPY SEAL</button>
-              <button class="btn sm" id="b-post" disabled>COPY POST</button>
-            </div>
-          </div>
-          <p class="hint">The seal is FNV-1a over <code>ticker|handle|lore</code>, the same function the verifier below uses. You can compute it yourself — it is four lines of code in the docs.</p>
-
-          <div class="sunk card" style="margin-top:14px">
-            <div class="lab" style="display:block;margin-bottom:8px">THE KEY BEING HASHED — LIVE</div>
-            <div class="keyprev" id="keyprev">·|·|·</div>
-          </div>
-
-          <div class="sunk card" style="margin-top:14px">
-            <div class="lab" style="display:block;margin-bottom:10px">WHAT HAPPENS NEXT</div>
-            <div class="q d" id="st1"><s></s>01 NAME THE COIN</div>
-            <div class="q n" id="st2"><s></s>02 SIGN IT WITH A HANDLE</div>
-            <div class="q n" id="st3"><s></s>03 WRITE 40+ CHARACTERS</div>
-            <div class="q n" id="st4"><s></s>04 SEAL IT — PERMANENT</div>
-          </div>
+        <div class="fld"><label for="v-l">THE LORE AS PUBLISHED</label><textarea id="v-l" rows="6" placeholder="Paste the lore exactly as it appears."></textarea></div>
+        <div class="fld"><label for="v-s">THE SEAL IT CLAIMS</label><input id="v-s" placeholder="LORE-XXXXXXX" maxlength="12" spellcheck="false" autocomplete="off"></div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <button class="btn gold" id="b-verify">VERIFY</button>
+          <button class="btn" id="b-fill">FILL FROM MY SEAL</button>
+        </div>
+      </div>
+      <div>
+        <div class="sealwrap">
+          <div class="lab">RESULT</div>
+          <div id="v-out" style="margin-top:12px"><p class="note" style="margin:0">Nothing checked yet. Seal some lore above, press FILL FROM MY SEAL to see it work, then change a single character and try again.</p></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ 03 LEDGER ============ -->
-<section id="ledger" class="rv">
-  <h2 class="sh"><span class="no">03</span> The ledger</h2>
-  <p class="sub">Every coin launched here, with its seal. It ships empty and stays empty until a real coin is launched — there is no placeholder row.</p>
-
-  <div class="win riv"><div class="rv2"></div>
-    <div class="wh"><span>LAUNCHED COINS</span><span class="n">WRITTEN FROM THE CHAIN</span></div>
-    <div class="wb">
-      <div class="tw">
-        <table>
-          <thead><tr><th>TICKER</th><th>FOUNDER</th><th>SEAL</th><th>LAUNCHED</th><th>HOLDERS</th></tr></thead>
-          <tbody id="ledger-b"><tr><td colspan="5"><div class="empty">NO COIN HAS LAUNCHED YET.<br>THIS TABLE FILLS ITSELF FROM THE CHAIN.</div></td></tr></tbody>
-        </table>
+<section id="journal" class="band dim rv">
+  <div class="wrap">
+    <span class="eyebrow">06 — THE JOURNAL</span>
+    <h2>What is done, and<br>what is not.</h2>
+    <p class="lede">Nothing is marked green until it is live on this page. Being straight about the gaps is cheaper than being caught by them.</p>
+    <div class="cols2">
+      <div>
+        <h3>DONE</h3>
+        <div class="q d"><s></s>SEAL ALGORITHM PUBLISHED</div>
+        <div class="q d"><s></s>VERIFIER OPEN TO EVERYONE</div>
+        <div class="q d"><s></s>LIVE HANDLE CHECK</div>
+        <div class="q d"><s></s>LIVE CHAIN READER</div>
       </div>
-
-      <h3 class="card" style="font-family:var(--ui);font-size:11px;color:var(--gold);padding:20px 0 8px;text-shadow:1px 1px 0 #000">RUN IT ON A COIN THAT ALREADY TRADES</h3>
-      <p class="sub" style="margin-bottom:12px">Paste any Robinhood Chain contract address. This reads holders from the chain explorer and price, market cap and 24h volume from Dexscreener, then applies the split below. Nothing is estimated.</p>
-      <div class="row" style="grid-template-columns:minmax(0,1fr) auto">
-        <input id="f-ca" placeholder="0x… contract address on Robinhood Chain" spellcheck="false" value="0x32fad9f482eb629dc7cb078824763e59441ee076">
-        <button class="btn" id="b-read">READ IT</button>
+      <div>
+        <h3>NOT YET</h3>
+        <div class="q p"><s></s>ON-CHAIN SEAL REGISTRY</div>
+        <div class="q p"><s></s>PAIRED STOCK VAULTS</div>
+        <div class="q n"><s></s>THE FIRST LAUNCH</div>
+        <div class="q n"><s></s>YOUR LORE HERE</div>
       </div>
-      <div class="grid g4" style="margin-top:14px">
-        <div class="sunk card"><span class="big dash" id="r-holders">—</span><p>HOLDERS</p></div>
-        <div class="sunk card"><span class="big dash" id="r-mcap">—</span><p>MARKET CAP</p></div>
-        <div class="sunk card"><span class="big dash" id="r-vol">—</span><p>24H VOLUME</p></div>
-        <div class="sunk card"><span class="big dash" id="r-fee">—</span><p>24H TO THE VAULT</p></div>
-      </div>
-      <p class="hint" id="r-note">Sources appear here once you read an address.</p>
     </div>
+    <p class="note" style="margin-top:26px">Today the seal is computed in your browser and the verifier proves the maths. What is not live yet is the registry that writes the seal into the launch transaction — until that ships, a seal is a claim you can check, not a claim the chain enforces.</p>
   </div>
 </section>
 
-<!-- ============ 04 SPLIT ============ -->
-<section id="split" class="rv">
-  <h2 class="sh"><span class="no">04</span> Where the money goes</h2>
-  <p class="sub">Pons takes one percent of every trade. That is the protocol's fee, not ours, and it is split 70 / 30 between the creator and Pons. All of the arithmetic below happens inside the 0.70% the creator controls.</p>
+<section id="faq" class="band rv">
+  <div class="wrap">
+    <span class="eyebrow">07 — STRAIGHT ANSWERS</span>
+    <h2>The questions people<br>actually ask.</h2>
 
-  <div class="win riv"><div class="rv2"></div>
-    <div class="wh"><span>THE SPLIT</span><span class="n" id="sp-note">DEFAULT 30% TO THE SCRIBE</span></div>
-    <div class="wb">
-      <div class="split">
-        <div>
-          <div class="kv"><b>PONS FEE, EVERY TRADE</b><i>1.00%</i></div>
-          <div class="kv"><b>CREATOR SHARE</b><i>0.70%</i></div>
-          <div class="kv"><b>TO THE SCRIBE</b><i id="sp-scribe">0.210%</i></div>
-          <div class="kv"><b>TO THE LORE VAULT</b><i id="sp-vault">0.490%</i></div>
-          <div class="kv"><b>PROTOCOL, NEVER OURS</b><i class="dash">0.300%</i></div>
+    <details><summary>What stops someone writing lore that is a lie?</summary>
+      <div class="a">Nothing stops them writing it. What the seal does is stop them changing it later. A coin that claimed one thing in January and something else in June is, right now, impossible to catch. Here it is trivial — the seal will not match. Permanence is not a truth machine, it is an accountability machine.</div></details>
 
-          <div class="bar3" id="bar">
-            <span class="a" id="bar-a">SCRIBE</span><span class="b" id="bar-b">VAULT</span><span class="c">PONS</span>
-          </div>
-          <label for="sl" style="margin-top:14px">SCRIBE SHARE OF THE CREATOR FEE — <span id="sl-v">30</span>%</label>
-          <input type="range" id="sl" min="0" max="50" value="30" step="1">
-          <p class="hint">The scribe is whoever wrote the lore. Their share is escrowed from the first trade and claimed by posting their seal from the handle it was signed with. If nobody claims it, it stays escrowed.</p>
-        </div>
+    <details><summary>Does the founder need a wallet to claim the scribe share?</summary>
+      <div class="a">They need one to receive it, not to earn it. The share accrues from the first trade regardless. They claim it by posting their seal from the handle it was signed with, which anyone can verify because the seal is derived from the handle itself. If they never claim it, it stays escrowed. It does not come back to us.</div></details>
 
-        <div>
-          <label for="f-vol">24H VOLUME TO MODEL</label>
-          <input id="f-vol" type="text" inputmode="numeric" value="1000000">
-          <div class="sunk card" style="margin-top:14px">
-            <div class="kv"><b>PONS COLLECTS</b><i id="m-pons">$10,000</i></div>
-            <div class="kv"><b>CREATOR SHARE</b><i id="m-creator">$7,000</i></div>
-            <div class="kv"><b>TO THE SCRIBE</b><i id="m-scribe">$2,100</i></div>
-            <div class="kv"><b>TO THE VAULT</b><i id="m-vault">$4,900</i></div>
-          </div>
-          <p class="hint">The vault pays out to holders in the stock the coin is paired to. Six to pick from at launch, read live at the top of this page — if a price is missing the page says so rather than filling it in.</p>
-          <div class="grid g3" style="margin-top:12px" id="pairs"></div>
-        </div>
-      </div>
-    </div>
+    <details><summary>Why FNV-1a and not a real cryptographic hash?</summary>
+      <div class="a">Because you should be able to compute it by hand. FNV-1a is four lines of code, it is in the docs, and it runs in your browser here with no server call. It is a tamper-evidence check, not a security primitive — the chain is what makes it binding, the hash just makes an edit obvious.</div></details>
+
+    <details><summary>Where do the numbers on this page come from?</summary>
+      <div class="a">Handles and avatars are read live from X. Holders come from the Robinhood Chain explorer. Price, market cap and 24h volume come from Dexscreener. Paired stock prices come from public market data. Anywhere a number does not exist yet, the page shows a dash instead of filling it in.</div></details>
+
+    <details><summary>Is the coin live?</summary>
+      <div class="a">Not yet. When it is, the contract address will be at the top of this page and in the pinned post. Anyone posting a contract address before it appears here is scamming you.</div></details>
   </div>
-</section>
-
-<!-- ============ 05 VERIFY ============ -->
-<section id="verify" class="rv">
-  <h2 class="sh"><span class="no">05</span> Verify a seal</h2>
-  <p class="sub">The point of the seal is that you do not have to trust us. Paste a coin's lore and the seal it claims. If one character has moved, this will not match.</p>
-
-  <div class="win riv"><div class="rv2"></div>
-    <div class="wh"><span>VERIFIER</span><span class="n" id="v-stat">IDLE</span></div>
-    <div class="wb">
-      <div class="row">
-        <div class="fld"><label for="v-t">TICKER</label><input id="v-t" placeholder="LEDGER" maxlength="10" autocomplete="off"></div>
-        <div class="fld"><label for="v-h">HANDLE</label><input id="v-h" placeholder="@handle" maxlength="16" autocomplete="off" spellcheck="false"></div>
-      </div>
-      <div class="fld"><label for="v-l">THE LORE AS PUBLISHED</label><textarea id="v-l" rows="5" placeholder="Paste the lore exactly as it appears."></textarea></div>
-      <div class="fld"><label for="v-s">THE SEAL IT CLAIMS</label><input id="v-s" placeholder="LORE-XXXXXXX" maxlength="12" spellcheck="false" autocomplete="off"></div>
-      <div class="cta" style="margin-top:0">
-        <button class="btn gold" id="b-verify">VERIFY</button>
-        <button class="btn" id="b-fill">FILL FROM MY SEAL</button>
-      </div>
-      <div class="sunk card" id="v-out" hidden style="margin-top:14px"></div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ 06 QUESTS ============ -->
-<section id="quests" class="rv">
-  <h2 class="sh"><span class="no">06</span> Quest journal</h2>
-  <p class="sub">What is done, what is being built, what has not been started. Nothing is marked green until it is live on this page.</p>
-  <div class="grid g2">
-    <div class="win card riv"><div class="rv2"></div>
-      <h3>DONE</h3>
-      <div class="q d"><s></s>SEAL ALGORITHM PUBLISHED</div>
-      <div class="q d"><s></s>VERIFIER OPEN TO EVERYONE</div>
-      <div class="q d"><s></s>LIVE HANDLE CHECK</div>
-      <div class="q d"><s></s>LIVE CHAIN READER</div>
-    </div>
-    <div class="win card riv"><div class="rv2"></div>
-      <h3>NOT YET</h3>
-      <div class="q p"><s></s>PAIRED STOCK VAULTS</div>
-      <div class="q p"><s></s>ON-CHAIN SEAL REGISTRY</div>
-      <div class="q n"><s></s>THE FIRST LAUNCH</div>
-      <div class="q n"><s></s>YOUR LORE HERE</div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ 07 FAQ ============ -->
-<section id="faq" class="rv">
-  <h2 class="sh"><span class="no">07</span> Straight answers</h2>
-  <p class="sub">The questions people actually ask, answered before they have to.</p>
-
-  <details><summary>What stops someone writing lore that is a lie?</summary>
-    <div class="a">Nothing stops them writing it. What the seal does is stop them changing it later. A coin that claimed one thing in January and something else in June is, right now, impossible to catch. Here it is trivial — the seal will not match. Permanence is not a truth machine, it is an accountability machine.</div></details>
-
-  <details><summary>Does the founder need a wallet to claim the scribe share?</summary>
-    <div class="a">They need one to receive it, not to earn it. The share accrues from the first trade regardless. They claim it by posting their seal from the handle it was signed with, which anyone can verify because the seal is derived from the handle itself. If they never claim it, it stays escrowed. It does not come back to us.</div></details>
-
-  <details><summary>Why FNV-1a and not a real cryptographic hash?</summary>
-    <div class="a">Because you should be able to compute it by hand. FNV-1a is four lines of code, it is in the docs, and it runs in your browser here with no server call. It is a tamper-evidence check, not a security primitive — the chain is what makes it binding, the hash just makes an edit obvious.</div></details>
-
-  <details><summary>Where do the numbers on this page come from?</summary>
-    <div class="a">Handles and avatars are read live from X. Holders come from the Robinhood Chain explorer. Price, market cap and 24h volume come from Dexscreener. Paired stock prices come from public market data. Anywhere a number does not exist yet, the page shows a dash instead of filling it in.</div></details>
-
-  <details><summary>Is the coin live?</summary>
-    <div class="a">Not yet. When it is, the contract address will be at the top of this page and in the pinned post. Anyone posting a contract address before it appears here is scamming you.</div></details>
 </section>
 
 </main>
@@ -635,29 +574,37 @@ html.js .rv.in{opacity:1;transform:none;transition:opacity .4s steps(4),transfor
 <footer>
   <div class="fin">
     <div class="brand" style="font-size:11px"><img src="assets/mark.png" alt="" width="20" height="20"><span>LOREPAD</span></div>
-    <div class="flinks">
-      <a href="#write">Write</a><a href="#verify">Verify</a><a href="docs.html">Docs</a>
-    </div>
+    <div class="flinks"><a href="#write">Write</a><a href="#verify">Verify</a><a href="docs.html">Docs</a></div>
   </div>
 </footer>
 
 <div class="sr" id="log" aria-live="polite"></div>
-
 <div class="xpl" id="xpl"></div>
 
 <script>
 const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
 /* ---------- loading screen ---------- */
 (function(){
   const box = $('#load'); if (!box) return;
   const root = document.documentElement, bar = $('#lb');
+  const ring = box.querySelector('.ring'), emb = box.querySelector('.embers');
+  for (let i = 0; i < 12; i++){ const d = document.createElement('i'); d.style.setProperty('--i', i); ring.appendChild(d); }
+  for (let i = 0; i < 14; i++){
+    const b = document.createElement('b');
+    b.style.left = (3 + i * 7 + Math.random() * 4).toFixed(1) + '%';
+    b.style.animationDelay = (Math.random() * 2).toFixed(2) + 's';
+    b.style.animationDuration = (1.5 + Math.random() * 1.1).toFixed(2) + 's';
+    emb.appendChild(b);
+  }
   root.classList.add('loading');
-  let pct = 0, done = false, loaded = false;
+  let pct = 0, done = false;
   const tick = setInterval(() => {
-    pct = Math.min(94, pct + 7 + Math.random() * 11);
+    pct = Math.min(100, pct + 15 + Math.random() * 18);
     bar.style.width = pct + '%';
-    if (pct >= 94 && loaded) finish();
-  }, 170);
+    if (pct >= 100) finish();
+  }, 85);
   function finish(){
     if (done) return; done = true;
     clearInterval(tick);
@@ -665,17 +612,12 @@ const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAl
     setTimeout(() => {
       box.classList.add('out');
       root.classList.remove('loading');
-      setTimeout(() => box.remove(), 360);
-    }, 220);
+      setTimeout(() => box.remove(), 240);
+    }, 80);
   }
-  window.addEventListener('load', () => { loaded = true; });
-  setTimeout(() => { loaded = true; }, 1400);
-  setTimeout(finish, 4000);                      // backstop: never trap the page
+  setTimeout(finish, 1300);                       // backstop: never trap the page
 })();
 
-const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-
-/* ---------- chatbox + points ---------- */
 function say(msg){ $('#log').textContent = msg; }
 function xp(n, el){
   if (!el) return;
@@ -685,7 +627,7 @@ function xp(n, el){
   s.style.left = Math.min(window.innerWidth - 80, r.left + r.width / 2) + 'px';
   s.style.top = r.top + 'px';
   $('#xpl').appendChild(s);
-  setTimeout(() => s.remove(), 1600);
+  setTimeout(() => s.remove(), 1500);
 }
 function levelup(title, body){
   const w = document.createElement('div');
@@ -702,10 +644,7 @@ function levelup(title, body){
 /* ---------- the seal ---------- */
 function fnv(str){
   let h = 0x811c9dc5;
-  for (let i = 0; i < str.length; i++){
-    h ^= str.charCodeAt(i);
-    h = Math.imul(h, 0x01000193) >>> 0;
-  }
+  for (let i = 0; i < str.length; i++){ h ^= str.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; }
   return h >>> 0;
 }
 function sealOf(tick, handle, lore){
@@ -722,38 +661,17 @@ $('#mb').addEventListener('click', e => {
 const anchors = $$('.nav ul a').filter(a => (a.getAttribute('href') || '').startsWith('#'));
 $$('.nav ul a').forEach(a => a.addEventListener('click', () => $('#menu').classList.remove('open')));
 if ('IntersectionObserver' in window && anchors.length){
-  const io = new IntersectionObserver(es => {
-    es.forEach(e => {
-      if (!e.isIntersecting) return;
-      anchors.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id));
-    });
-  }, { rootMargin: '-45% 0px -50% 0px' });
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    anchors.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id));
+  }), { rootMargin: '-45% 0px -50% 0px' });
   anchors.forEach(a => { const t = document.querySelector(a.getAttribute('href')); if (t) io.observe(t); });
 }
-
-/* reveal, with a backstop so nothing can stay invisible */
 if ('IntersectionObserver' in window){
   const ro = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); ro.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' });
   $$('.rv').forEach(el => ro.observe(el));
 } else $$('.rv').forEach(el => el.classList.add('in'));
 setTimeout(() => $$('.rv').forEach(el => el.classList.add('in')), 2500);
-
-/* ---------- tabs ---------- */
-const TABS = $$('.tab');
-TABS.forEach((t, idx) => t.addEventListener('keydown', e => {
-  const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
-  if (!d) return;
-  e.preventDefault();
-  const n = TABS[(idx + d + TABS.length) % TABS.length];
-  n.focus(); n.click();
-}));
-$$('.tab').forEach(t => t.addEventListener('click', () => {
-  $$('.tab').forEach(o => {
-    const on = o === t;
-    o.setAttribute('aria-selected', on ? 'true' : 'false');
-    const p = document.getElementById(o.dataset.t); if (p) p.hidden = !on;
-  });
-}));
 
 /* ---------- price ticker + pair cards ---------- */
 const PAIRS = ['SPY','NVDA','TSLA','META','NFLX','COIN'];
@@ -769,69 +687,53 @@ async function loadPrices(){
   }));
   got.sort((a, b) => PAIRS.indexOf(a.sym) - PAIRS.indexOf(b.sym));
   const cell = p => p.price == null
-    ? '<b>' + p.sym + '</b> <i class="dash">no price</i>'
+    ? '<b>' + p.sym + '</b> <i style="color:#6a6049">no price</i>'
     : '<b>' + p.sym + '</b> <i>' + money(p.price) + '</i>' +
       (p.change == null ? '' : ' <span class="' + (p.change >= 0 ? 'up' : 'dn') + '">' + (p.change >= 0 ? '+' : '') + p.change + '%</span>');
-  const line = got.map(cell).join('<span style="color:#5b5040">·</span>');
-  $('#tk').innerHTML = line + '<span style="color:#5b5040">·</span>' + line;
+  const line = got.map(cell).join('<span style="color:#514834">·</span>');
+  $('#tk').innerHTML = line + '<span style="color:#514834">·</span>' + line;
   $('#pairs').innerHTML = got.map(p =>
-    '<div class="sunk card" style="padding:10px"><b style="font-family:var(--ui);font-size:9px;color:var(--gold)">' + p.sym +
-    '</b><div style="font-size:15px;color:' + (p.price == null ? '#6f6450' : 'var(--paper)') + '">' +
-    (p.price == null ? 'no price' : money(p.price)) + '</div></div>').join('');
-  const n = got.filter(p => p.price != null).length;
+    '<div><b>' + p.sym + '</b><span class="' + (p.price == null ? 'no' : '') + '">' +
+    (p.price == null ? 'no price' : money(p.price)) + '</span></div>').join('');
 }
 loadPrices();
 
 /* ---------- handle check ---------- */
-let founder = null;
 $('#b-check').addEventListener('click', async e => {
   const b = e.currentTarget;
   const h = $('#f-h').value.replace(/^@/, '').trim();
-  if (!/^[A-Za-z0-9_]{1,15}$/.test(h)){ say('That is not a valid X handle.'); $('#wstat').textContent = 'BAD HANDLE'; return; }
-  b.disabled = true; b.textContent = 'CHECKING…'; $('#wstat').textContent = 'READING X…';
+  if (!/^[A-Za-z0-9_]{1,15}$/.test(h)){ say('That is not a valid X handle.'); return; }
+  b.disabled = true; b.textContent = 'CHECKING…';
   try{
     const r = await fetch('/api/handle?h=' + encodeURIComponent(h));
     const j = await r.json();
-    if (j.exists === false){
-      $('#who').hidden = true; founder = null;
-      say('@' + h + ' does not exist.'); $('#wstat').textContent = 'NOT FOUND';
-    } else if (j.exists === true){
-      founder = j.handle || h;
-      $('#who-a').src = '/api/avatar?h=' + encodeURIComponent(founder);
-      $('#who-n').textContent = (j.name || founder) + ' · @' + founder;
+    if (j.exists === true){
+      const f = j.handle || h;
+      $('#who-a').src = '/api/avatar?h=' + encodeURIComponent(f);
+      $('#who-n').textContent = (j.name || f) + ' · @' + f;
       $('#who-m').textContent = [
         j.followers != null ? Number(j.followers).toLocaleString('en-US') + ' followers' : null,
-        j.verified ? 'verified' : null,
-        'read from ' + (j.src || 'X')
+        j.verified ? 'verified' : null, 'read from ' + (j.src || 'X')
       ].filter(Boolean).join(' · ');
       $('#who').hidden = false;
-      $('#wstat').textContent = 'FOUNDER SET';
-      say('@' + founder + ' found. Read live from ' + (j.src || 'X') + '.');
+      say('@' + f + ' found.');
       xp(5, b);
     } else {
-      $('#who').hidden = true; founder = null;
-      say('Could not reach X just now. Try again in a moment.'); $('#wstat').textContent = 'NO ANSWER';
+      $('#who').hidden = true;
+      say(j.exists === false ? '@' + h + ' does not exist.' : 'Could not reach X just now.');
     }
-  }catch(err){
-    say('The handle check failed to reach the network.'); $('#wstat').textContent = 'ERROR';
-  }
+  }catch(err){ say('The handle check failed to reach the network.'); }
   b.disabled = false; b.textContent = 'CHECK HANDLE';
 });
 
 /* ---------- write + seal ---------- */
 const lore = $('#f-lore');
-lore.addEventListener('input', () => {
-  $('#cnt').textContent = lore.value.length + ' / 1200';
-  $('#wstat').textContent = lore.value.trim() ? 'UNSEALED DRAFT' : 'AWAITING INPUT';
-});
+lore.addEventListener('input', () => { $('#cnt').textContent = lore.value.length + ' / 1200'; });
 function paintDraft(){
   const t = $('#f-tick').value.trim(), h = $('#f-h').value.replace(/^@/, '').trim(), l = lore.value;
   $('#keyprev').textContent = (t ? t.toUpperCase() : '·') + '|' + (h ? h.toLowerCase() : '·') + '|' + (l || '·');
   const mark = (id, ok) => { const el = $(id); if (el) el.className = 'q ' + (ok ? 'd' : 'n'); };
-  mark('#st1', !!$('#f-tick').value.trim());
-  mark('#st2', !!h);
-  mark('#st3', l.trim().length >= 40);
-  mark('#st4', !!sealed);
+  mark('#st1', !!t); mark('#st2', !!h); mark('#st3', l.trim().length >= 40); mark('#st4', !!sealed);
 }
 ['#f-tick','#f-h','#f-lore','#f-name'].forEach(s => $(s).addEventListener('input', paintDraft));
 
@@ -843,16 +745,15 @@ $('#b-seal').addEventListener('click', e => {
   if (!h){ say('A coin needs a founder before it can be sealed.'); $('#f-h').focus(); return; }
   if (l.trim().length < 40){ say('That is not lore, that is a caption. Write at least 40 characters.'); lore.focus(); return; }
   const code = sealOf(t, h, l);
-  sealed = { name, tick: t.toUpperCase(), handle: h, lore: l, code, at: new Date() };
+  sealed = { name, tick: t.toUpperCase(), handle: h, lore: l, code };
   $('#seal-code').textContent = code;
   $('#seal-meta').textContent = '$' + sealed.tick + ' · @' + h + ' · ' + l.length + ' CHARACTERS';
   $('#seal-body').textContent = l;
   $('#seal-body').hidden = false;
   $('#b-copy').disabled = false; $('#b-post').disabled = false;
-  $('#wstat').textContent = 'SEALED';
   paintDraft();
   $('#s-sealed').textContent = (+$('#s-sealed').textContent + 1);
-  say('Lore sealed as ' + code + '. It can never be edited.');
+  say('Lore sealed as ' + code + '.');
   xp(50, e.currentTarget);
   levelup('LORE SEALED', 'Your lore for $' + sealed.tick + ' is now ' + code + '. Change a single character and the seal changes with it.');
 });
@@ -863,8 +764,7 @@ $('#b-clear').addEventListener('click', () => {
   $('#seal-code').textContent = 'LORE-·······';
   $('#seal-meta').textContent = 'NOTHING SEALED YET';
   $('#b-copy').disabled = true; $('#b-post').disabled = true;
-  sealed = null; founder = null; $('#wstat').textContent = 'AWAITING INPUT';
-  paintDraft();
+  sealed = null; paintDraft();
   say('Draft cleared.');
 });
 async function copy(text, btn, label){
@@ -878,7 +778,7 @@ async function copy(text, btn, label){
   }
   const old = btn.textContent; btn.textContent = 'COPIED';
   setTimeout(() => btn.textContent = old, 1400);
-  say(label + ' copied to your clipboard.');
+  say(label + ' copied.');
 }
 $('#b-copy').addEventListener('click', e => { if (sealed) copy(sealed.code, e.currentTarget, 'Seal'); });
 $('#b-post').addEventListener('click', e => {
@@ -887,7 +787,6 @@ $('#b-post').addEventListener('click', e => {
     '\n\nSealed by @' + sealed.handle + '\n' + sealed.code + '\n\nno lore, no launch';
   copy(post, e.currentTarget, 'Launch post');
 });
-
 paintDraft();
 
 /* ---------- ledger reader ---------- */
@@ -895,19 +794,19 @@ $('#b-read').addEventListener('click', async e => {
   const b = e.currentTarget, ca = $('#f-ca').value.trim().toLowerCase();
   if (!/^0x[0-9a-f]{40}$/.test(ca)){ say('That is not a contract address.'); return; }
   b.disabled = true; b.textContent = 'READING…';
-  const set = (id, v, cls) => { const el = $(id); el.textContent = v; el.className = 'big' + (cls ? ' ' + cls : ''); };
+  const set = (id, v, dash) => { const el = $(id); el.textContent = v; el.className = 'big' + (dash ? ' dash' : ''); };
   try{
     const r = await fetch('/api/coin?ca=' + ca);
     const j = await r.json();
-    set('#r-holders', j.holders != null ? Number(j.holders).toLocaleString('en-US') : '—', j.holders == null ? 'dash' : '');
-    set('#r-mcap', j.marketCap != null ? money(j.marketCap) : '—', j.marketCap == null ? 'dash' : '');
-    set('#r-vol', j.volume24 != null ? money(j.volume24) : '—', j.volume24 == null ? 'dash' : '');
+    set('#r-holders', j.holders != null ? Number(j.holders).toLocaleString('en-US') : '—', j.holders == null);
+    set('#r-mcap', j.marketCap != null ? money(j.marketCap) : '—', j.marketCap == null);
+    set('#r-vol', j.volume24 != null ? money(j.volume24) : '—', j.volume24 == null);
     const vault = j.volume24 != null ? j.volume24 * 0.007 * (1 - scribe() / 100) : null;
-    set('#r-fee', vault != null ? money(vault) : '—', vault == null ? 'dash' : '');
+    set('#r-fee', vault != null ? money(vault) : '—', vault == null);
     const src = (j.src || []).join(' + ') || 'nothing';
     $('#r-note').textContent = (j.symbol ? '$' + j.symbol + (j.name ? ' (' + j.name + ')' : '') + ' · ' : '') +
-      'read from ' + src + '. The vault figure applies the split above to the real 24h volume.';
-    say(j.symbol ? 'Read $' + j.symbol + ' from ' + src + '.' : 'Read ' + ca.slice(0, 10) + '… from ' + src + '.', j.exists ? 'g' : 'y');
+      'read from ' + src + '. The vault figure applies the split below to the real 24h volume.';
+    say('Read from ' + src + '.');
     xp(10, b);
   }catch(err){
     $('#r-note').textContent = 'That read failed. The address may not be on this chain.';
@@ -918,17 +817,14 @@ $('#b-read').addEventListener('click', async e => {
 
 /* ---------- the split ---------- */
 const scribe = () => +$('#sl').value;
-const pct = n => n.toFixed(3).replace(/0$/, '') + '%';
 function paintSplit(){
   const s = scribe(), a = 0.7 * s / 100, v = 0.7 - a;
   $('#sl-v').textContent = s;
   $('#sp-scribe').textContent = a.toFixed(3) + '%';
   $('#sp-vault').textContent = v.toFixed(3) + '%';
-  $('#sp-note').textContent = s + '% TO THE SCRIBE';
-  const total = 1.0;
-  $('#bar-a').style.width = (a / total * 100) + '%';
-  $('#bar-b').style.width = (v / total * 100) + '%';
-  $('#bar').lastElementChild.style.width = (0.3 / total * 100) + '%';
+  $('#bar-a').style.width = (a * 100) + '%';
+  $('#bar-b').style.width = (v * 100) + '%';
+  $('#bar').lastElementChild.style.width = '30%';
   $('#bar-a').textContent = a >= 0.12 ? a.toFixed(3) + '%' : '';
   $('#bar-b').textContent = v.toFixed(3) + '%';
   paintModel();
@@ -952,7 +848,7 @@ $('#b-fill').addEventListener('click', () => {
   if (!sealed){ say('Seal some lore first and this will fill itself in.'); return; }
   $('#v-t').value = sealed.tick; $('#v-h').value = sealed.handle;
   $('#v-l').value = sealed.lore; $('#v-s').value = sealed.code;
-  say('Verifier filled from your seal. Change one character and try it.');
+  say('Verifier filled from your seal.');
 });
 $('#b-verify').addEventListener('click', e => {
   const t = $('#v-t').value.trim(), h = $('#v-h').value.trim(), l = $('#v-l').value, claim = $('#v-s').value.trim().toUpperCase();
@@ -960,17 +856,14 @@ $('#b-verify').addEventListener('click', e => {
   if (!t || !h || !l.trim() || !claim){ say('The verifier needs a ticker, a handle, the lore and the seal.'); return; }
   const real = sealOf(t, h, l);
   const ok = real === claim;
-  out.hidden = false;
   out.innerHTML = '<div class="kv"><b>COMPUTED</b><i>' + esc(real) + '</i></div>' +
                   '<div class="kv"><b>CLAIMED</b><i>' + esc(claim) + '</i></div>' +
                   '<div class="kv"><b>RESULT</b><i style="color:' + (ok ? 'var(--green)' : 'var(--red)') + '">' +
                   (ok ? 'MATCH — THIS IS THE LORE THAT WAS SEALED' : 'NO MATCH — THIS TEXT HAS CHANGED') + '</i></div>';
-  $('#v-stat').textContent = ok ? 'MATCH' : 'NO MATCH';
   $('#s-ver').textContent = (+$('#s-ver').textContent + 1);
-  say(ok ? 'Seal verified: ' + real + '.' : 'Seal does not match. Computed ' + real + ', claimed ' + claim + '.', ok ? 'g' : 'r');
+  say(ok ? 'Seal verified.' : 'Seal does not match.');
   xp(ok ? 20 : 5, e.currentTarget);
 });
-
 </script>
 </body>
 </html>

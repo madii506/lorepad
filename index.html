@@ -46,6 +46,8 @@ a:hover{color:var(--yellow)}
   box-shadow:inset 1px 1px 0 var(--lit),inset -1px -1px 0 var(--drk);
   position:relative;
 }
+.grid .win.card{transition:box-shadow .12s steps(2)}
+.grid .win.card:hover{box-shadow:inset 1px 1px 0 #9c8763,inset -1px -1px 0 var(--drk)}
 .win>.wh{
   margin:6px 6px 0;border:2px solid var(--blk);background:var(--bar) var(--chk);background-size:4px 4px;
   box-shadow:inset 1px 1px 0 #6d5a3e,inset -1px -1px 0 #2a2216;
@@ -104,6 +106,7 @@ label{font-family:var(--ui);font-size:9px;color:var(--mute);display:block;margin
 .tkin .up{color:var(--green)}.tkin .dn{color:var(--red)}
 @keyframes mar{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @media (prefers-reduced-motion:reduce){.tkin{animation:none}}
+.ticker:hover .tkin{animation-play-state:paused}
 
 .nav{position:sticky;top:29px;z-index:39;border-bottom:2px solid #000;
   background:#2a241b var(--chk);background-size:4px 4px}
@@ -225,22 +228,41 @@ details .a{padding:0 14px 14px;color:var(--mute);font-size:16px;line-height:1.7;
 /* xp drops + level up */
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 /* loading screen */
-.load{position:fixed;inset:0;z-index:200;background:#1a160f var(--chk);background-size:4px 4px;
-  display:flex;align-items:center;justify-content:center;padding:20px}
+.load{position:fixed;inset:0;z-index:200;background:#17130d var(--chk);background-size:4px 4px;
+  display:flex;align-items:center;justify-content:center;overflow:hidden}
 html:not(.js) .load{display:none}
-.load.out{opacity:0;pointer-events:none;transition:opacity .35s steps(5)}
-.loadbox{width:min(460px,100%);text-align:center}
-.loadbox img{width:88px;height:88px;border:2px solid #000;box-shadow:inset 0 0 0 1px #6d5a3e;image-rendering:pixelated}
-.loadwm{font-family:var(--ui);font-size:26px;color:var(--gold);text-shadow:3px 3px 0 #000;margin:16px 0 4px;line-height:1}
-.loadtag{font-family:var(--ui);font-size:8px;color:var(--yellow);text-shadow:1px 1px 0 #000;letter-spacing:.06em}
-.loadbar{height:24px;margin:22px 0 12px;border:2px solid #000;background:#0f0c08;
-  box-shadow:inset 1px 1px 0 #000,inset -1px -1px 0 #4a3e2c;padding:2px}
+html.loading{overflow:hidden}
+html.loading body{overflow:hidden}
+.load.out{opacity:0;pointer-events:none;transition:opacity .3s steps(4)}
+.loadbox{position:relative;width:330px;height:330px;display:flex;align-items:center;justify-content:center}
+.loadbox img{width:112px;height:112px;image-rendering:pixelated;position:relative;z-index:2;
+  border:2px solid #000;box-shadow:inset 0 0 0 1px #6d5a3e;animation:beat 1.6s steps(1) infinite}
+@keyframes beat{0%{filter:brightness(1.18)}25%{filter:brightness(1.06)}50%{filter:brightness(.92)}75%{filter:brightness(1.06)}}
+.ring{position:absolute;inset:0;z-index:1}
+.ring i{position:absolute;left:50%;top:50%;width:9px;height:9px;margin:-4px 0 0 -4px;background:var(--gold);
+  box-shadow:0 0 0 1px #000;opacity:.12;
+  transform:rotate(calc(var(--i)*30deg)) translateY(-118px) rotate(calc(var(--i)*-30deg));
+  animation:blip 1.44s steps(1) infinite;animation-delay:calc(var(--i)*-0.12s)}
+@keyframes blip{0%{opacity:1}8%{opacity:.75}16%{opacity:.5}24%{opacity:.3}32%,100%{opacity:.12}}
+.ring2{position:absolute;inset:0;z-index:1}
+.ring2 i{position:absolute;left:50%;top:50%;width:5px;height:5px;margin:-2px 0 0 -2px;background:#9e2820;
+  box-shadow:0 0 0 1px #000;opacity:.5;
+  transform:rotate(calc(var(--i)*45deg + 22deg)) translateY(-82px);
+  animation:spin2 2.6s steps(1) infinite;animation-delay:calc(var(--i)*-0.32s)}
+@keyframes spin2{0%{opacity:.9;background:var(--gold)}20%{opacity:.5;background:#9e2820}100%{opacity:.25;background:#9e2820}}
+.embers{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.embers b{position:absolute;bottom:-8px;width:3px;height:3px;background:var(--gold);opacity:0;
+  animation:ember 3.6s linear infinite}
+@keyframes ember{0%{opacity:0;transform:translateY(0)}
+  10%{opacity:.85}60%{opacity:.5}100%{opacity:0;transform:translateY(-420px)}}
+.loadbar{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:248px;height:18px;
+  border:2px solid #000;background:#0d0a06;box-shadow:inset 1px 1px 0 #000,inset -1px -1px 0 #46392a;padding:2px;z-index:3}
 .loadbar i{display:block;height:100%;width:0%;background:#9e2820;
-  box-shadow:inset 0 2px 0 #c4362b,inset 0 -2px 0 #6d1a14;transition:width .25s steps(6)}
-.loadmsg{font-family:var(--ui);font-size:9px;color:var(--paper);text-shadow:1px 1px 0 #000;
-  display:flex;justify-content:space-between;gap:12px;line-height:1.8}
-.loadmsg b{font-weight:400;color:var(--gold)}
-@media(max-width:520px){.loadwm{font-size:19px}.loadbox img{width:68px;height:68px}}
+  box-shadow:inset 0 2px 0 #c4362b,inset 0 -2px 0 #6d1a14;transition:width .22s steps(5)}
+@media(prefers-reduced-motion:reduce){.ring i,.ring2 i,.embers b,.loadbox img{animation:none}}
+@media(max-width:520px){.loadbox{width:250px;height:250px}.loadbox img{width:84px;height:84px}.loadbar{width:200px}
+  .ring i{transform:rotate(calc(var(--i)*30deg)) translateY(-92px) rotate(calc(var(--i)*-30deg))}
+  .ring2 i{transform:rotate(calc(var(--i)*45deg + 22deg)) translateY(-66px)}}
 
 .xpl{position:fixed;inset:0;pointer-events:none;z-index:60}
 .xp{position:absolute;font-family:var(--ui);font-size:12px;color:var(--yellow);text-shadow:2px 2px 0 #000;
@@ -279,12 +301,12 @@ html.js .rv.in{opacity:1;transform:none;transition:opacity .4s steps(4),transfor
 <body>
 
 <div class="load" id="load">
+  <div class="embers"><b style="left:7%;animation-delay:0.00s;animation-duration:3.8s"></b><b style="left:16%;animation-delay:1.40s;animation-duration:4.4s"></b><b style="left:24%;animation-delay:2.60s;animation-duration:3.2s"></b><b style="left:33%;animation-delay:0.60s;animation-duration:4.0s"></b><b style="left:41%;animation-delay:3.10s;animation-duration:3.6s"></b><b style="left:49%;animation-delay:1.90s;animation-duration:4.6s"></b><b style="left:58%;animation-delay:0.30s;animation-duration:3.4s"></b><b style="left:66%;animation-delay:2.20s;animation-duration:4.2s"></b><b style="left:74%;animation-delay:1.10s;animation-duration:3.9s"></b><b style="left:83%;animation-delay:3.40s;animation-duration:3.3s"></b><b style="left:91%;animation-delay:0.90s;animation-duration:4.5s"></b><b style="left:96%;animation-delay:2.80s;animation-duration:3.7s"></b></div>
   <div class="loadbox">
-    <img src="assets/pfp.png" alt="" width="88" height="88">
-    <div class="loadwm">LOREPAD</div>
-    <div class="loadtag">NO LORE, NO LAUNCH</div>
+    <div class="ring"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><i style="--i:5"></i><i style="--i:6"></i><i style="--i:7"></i><i style="--i:8"></i><i style="--i:9"></i><i style="--i:10"></i><i style="--i:11"></i></div>
+    <div class="ring2"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><i style="--i:5"></i><i style="--i:6"></i><i style="--i:7"></i></div>
+    <img src="assets/pfp.png" alt="" width="112" height="112">
     <div class="loadbar"><i id="lb"></i></div>
-    <div class="loadmsg"><span id="lm">Opening the ledger&hellip;</span><b id="lp">0%</b></div>
   </div>
 </div>
 
@@ -628,28 +650,27 @@ const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAl
 /* ---------- loading screen ---------- */
 (function(){
   const box = $('#load'); if (!box) return;
-  const bar = $('#lb'), msg = $('#lm'), pctEl = $('#lp');
-  const steps = ['Opening the ledger\u2026', 'Checking the seals\u2026',
-                 'Reading the chain\u2026', 'No lore, no launch.'];
-  let pct = 0, i = 0, done = false, loaded = false;
+  const root = document.documentElement, bar = $('#lb');
+  root.classList.add('loading');
+  let pct = 0, done = false, loaded = false;
   const tick = setInterval(() => {
-    pct = Math.min(96, pct + 6 + Math.random() * 10);
+    pct = Math.min(94, pct + 7 + Math.random() * 11);
     bar.style.width = pct + '%';
-    pctEl.textContent = Math.round(pct) + '%';
-    const n = Math.min(steps.length - 1, Math.floor(pct / 26));
-    if (n !== i){ i = n; msg.textContent = steps[i]; }
-    if (pct >= 96 && loaded) finish();
-  }, 190);
+    if (pct >= 94 && loaded) finish();
+  }, 170);
   function finish(){
     if (done) return; done = true;
     clearInterval(tick);
-    bar.style.width = '100%'; pctEl.textContent = '100%';
-    msg.textContent = steps[steps.length - 1];
-    setTimeout(() => { box.classList.add('out'); setTimeout(() => box.remove(), 420); }, 260);
+    bar.style.width = '100%';
+    setTimeout(() => {
+      box.classList.add('out');
+      root.classList.remove('loading');
+      setTimeout(() => box.remove(), 360);
+    }, 220);
   }
   window.addEventListener('load', () => { loaded = true; });
-  setTimeout(() => { loaded = true; }, 1500);
-  setTimeout(finish, 4200);                      // backstop: never trap the page
+  setTimeout(() => { loaded = true; }, 1400);
+  setTimeout(finish, 4000);                      // backstop: never trap the page
 })();
 
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -718,6 +739,14 @@ if ('IntersectionObserver' in window){
 setTimeout(() => $$('.rv').forEach(el => el.classList.add('in')), 2500);
 
 /* ---------- tabs ---------- */
+const TABS = $$('.tab');
+TABS.forEach((t, idx) => t.addEventListener('keydown', e => {
+  const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+  if (!d) return;
+  e.preventDefault();
+  const n = TABS[(idx + d + TABS.length) % TABS.length];
+  n.focus(); n.click();
+}));
 $$('.tab').forEach(t => t.addEventListener('click', () => {
   $$('.tab').forEach(o => {
     const on = o === t;

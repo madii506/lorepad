@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>LOREPAD — docs</title>
+<meta name="description" content="The seal algorithm, the fee split, and every endpoint this site reads from — with live Run buttons.">
+<link rel="icon" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#2c261d;--panel:#60513a;--bar:#463a28;--slot:#3e3425;--lit:#867354;--drk:#342c1f;
+  --gold:#f6c442;--orange:#ff981f;--yellow:#ffe028;--paper:#f0eee6;--mute:#c3b596;--red:#da322a;--green:#3ec83e;
+  --ui:'Press Start 2P',ui-monospace,Menlo,Consolas,monospace;
+  --body:ui-sans-serif,system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --chk:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='4' height='4'><rect width='2' height='2' fill='%23000' opacity='.18'/><rect x='2' y='2' width='2' height='2' fill='%23000' opacity='.18'/></svg>");
+}
+*{box-sizing:border-box}
+html{overflow-x:hidden;scroll-behavior:smooth;scroll-padding-top:80px}
+body{overflow-x:clip;margin:0;background:var(--bg) var(--chk);background-size:4px 4px;color:var(--paper);
+  font-family:var(--body);font-size:16px;line-height:1.65;-webkit-font-smoothing:none}
+img{max-width:100%;image-rendering:pixelated}
+[hidden]{display:none!important}
+a{color:var(--gold);text-decoration:none}a:hover{color:var(--yellow)}
+.win{border:2px solid #000;background:var(--panel) var(--chk);background-size:4px 4px;
+  box-shadow:inset 1px 1px 0 var(--lit),inset -1px -1px 0 var(--drk);position:relative}
+.win>.wh{margin:6px 6px 0;border:2px solid #000;background:var(--bar) var(--chk);background-size:4px 4px;
+  box-shadow:inset 1px 1px 0 #6d5a3e,inset -1px -1px 0 #2a2216;font-family:var(--ui);font-size:11px;
+  color:var(--orange);text-shadow:1px 1px 0 #000;padding:9px 10px}
+.wb{padding:16px}
+.sunk{border:2px solid #000;background:var(--slot) var(--chk);background-size:4px 4px;
+  box-shadow:inset -1px -1px 0 var(--lit),inset 1px 1px 0 var(--drk)}
+.btn{font-family:var(--ui);font-size:9px;color:var(--paper);text-shadow:1px 1px 0 #000;
+  background:var(--bar) var(--chk);background-size:4px 4px;border:2px solid #000;
+  box-shadow:inset 1px 1px 0 #6d5a3e,inset -1px -1px 0 #2a2216;padding:9px 12px;cursor:pointer;
+  display:inline-flex;align-items:center;gap:8px;line-height:1.4}
+.btn:hover{background-color:#55462f;color:var(--yellow)}
+.btn:active{transform:translate(1px,1px)}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+input{font-family:var(--body);font-size:15px;color:var(--paper);background:#201b13;border:2px solid #000;
+  box-shadow:inset 1px 1px 0 #17130d;padding:9px 11px;width:100%;min-width:0}
+
+.nav{position:sticky;top:0;z-index:30;border-bottom:2px solid #000;background:#2a241b var(--chk);background-size:4px 4px}
+.navin{max-width:1140px;margin:0 auto;padding:calc(10px + env(safe-area-inset-top,0px)) 16px 10px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--ui);font-size:13px;color:var(--gold);text-shadow:2px 2px 0 #000}
+.brand img{width:26px;height:26px}
+.navin .r{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+
+.wrap{max-width:1140px;margin:0 auto;padding:22px 16px 60px;display:grid;
+  grid-template-columns:230px minmax(0,1fr);gap:22px;align-items:start}
+.wrap>main{min-width:0}
+@media(max-width:880px){.wrap{grid-template-columns:minmax(0,1fr)}.toc{position:static!important}}
+.toc{position:sticky;top:78px;padding:12px}
+.toc a{display:block;font-family:var(--ui);font-size:9px;color:var(--mute);padding:8px 6px;text-shadow:1px 1px 0 #000}
+.toc a:hover,.toc a.on{color:var(--gold);background:#3a3122}
+h1{font-family:var(--ui);font-size:20px;color:var(--gold);text-shadow:3px 3px 0 #000;margin:0 0 10px;line-height:1.6}
+h2{font-family:var(--ui);font-size:13px;color:var(--gold);text-shadow:2px 2px 0 #000;margin:0 0 10px;line-height:1.6}
+h3{font-family:var(--ui);font-size:10px;color:var(--orange);text-shadow:1px 1px 0 #000;margin:18px 0 8px;line-height:1.7}
+p{margin:0 0 12px;color:var(--paper);text-shadow:1px 1px 0 rgba(0,0,0,.5)}
+.mute{color:var(--mute)}
+section{margin:0 0 20px}
+pre{margin:0;padding:14px;overflow-x:auto;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;
+  line-height:1.7;color:#e8dcb8;-webkit-font-smoothing:antialiased}
+code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.82em;color:var(--yellow)}
+.tw{overflow-x:auto;border:2px solid #000}
+table{border-collapse:collapse;width:100%;min-width:600px;background:var(--slot)}
+th,td{padding:11px 12px;text-align:left;border-bottom:1px solid #4b3f2c;font-size:15px;vertical-align:top}
+th{font-family:var(--ui);font-size:8px;color:var(--mute);background:var(--bar);text-shadow:1px 1px 0 #000;white-space:nowrap}
+tbody tr:last-child td{border-bottom:none}
+td code{white-space:nowrap}
+.out{margin:10px 0 0;padding:12px;max-height:260px;overflow:auto;font-family:ui-monospace,Menlo,Consolas,monospace;
+  font-size:12px;line-height:1.6;white-space:pre-wrap;word-break:break-word;color:#d8e8c8;-webkit-font-smoothing:antialiased}
+.row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;margin:0 0 10px}
+.kv{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px dashed #4b3f2c}
+.kv:last-child{border-bottom:none}
+.kv b{font-family:var(--ui);font-size:9px;color:var(--mute);font-weight:400;text-shadow:1px 1px 0 #000}
+.kv i{font-style:normal;color:var(--gold);font-family:var(--ui);font-size:10px}
+.warn{font-family:var(--ui);font-size:9px;color:var(--red);line-height:2;text-shadow:1px 1px 0 #000}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="navin">
+    <a class="brand" href="index.html"><img src="assets/mark.png" alt=""><span>LOREPAD</span></a>
+    <div class="r">
+      <a class="btn" href="index.html">← BACK TO THE PAD</a>
+      <a class="btn" href="index.html#write">WRITE THE LORE</a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <nav class="win toc">
+    <a href="#seal">1 · The seal</a>
+    <a href="#rules">2 · Launch rules</a>
+    <a href="#split">3 · The split</a>
+    <a href="#api">4 · Endpoints</a>
+    <a href="#try">5 · Try them live</a>
+    <a href="#honest">6 · What is not built</a>
+  </nav>
+
+  <main>
+    <h1>LOREPAD DOCS</h1>
+    <p class="mute">Everything this site claims, written out so you can check it. No number on the pad is invented and no step here needs our permission.</p>
+
+    <section id="seal">
+      <div class="win"><div class="wh">1 · THE SEAL</div><div class="wb">
+        <p>A seal is a 7-character code derived from three things: the ticker, the founder's X handle and the lore text. It is computed with FNV-1a, a 32-bit non-cryptographic hash, and it is deliberately small enough to read aloud.</p>
+        <h3>THE KEY</h3>
+        <div class="sunk"><pre>TICKER|handle|the lore text, exactly as written</pre></div>
+        <p class="mute" style="margin-top:12px">The ticker is uppercased, the handle is lowercased with any leading <code>@</code> stripped, and the lore is untouched — every space and line break counts.</p>
+        <h3>THE FUNCTION</h3>
+        <div class="sunk"><pre>function fnv(str){
+  let h = 0x811c9dc5;
+  for (let i = 0; i &lt; str.length; i++){
+    h ^= str.charCodeAt(i);
+    h = Math.imul(h, 0x01000193) &gt;&gt;&gt; 0;
+  }
+  return h &gt;&gt;&gt; 0;
+}
+
+function sealOf(tick, handle, lore){
+  const key = tick.toUpperCase().trim() + '|'
+            + handle.replace(/^@/, '').toLowerCase().trim() + '|'
+            + lore;
+  return 'LORE-' + fnv(key).toString(36).toUpperCase().padStart(7, '0').slice(-7);
+}</pre></div>
+        <h3>WHY NOT SHA-256</h3>
+        <p>Because you should be able to compute this by hand, in any language, in about a minute. The seal is a tamper-evidence check, not a security primitive — the chain is what makes it binding. Its only job is to make an edit obvious to somebody who was not there.</p>
+        <p class="mute">Collisions exist in a 32-bit space. They do not help an attacker here: to forge a seal you would have to produce different lore that hashes the same <em>and</em> reads as a plausible story for the same ticker and handle. If that ever mattered at scale the key can be widened without changing anything else.</p>
+      </div></div>
+    </section>
+
+    <section id="rules">
+      <div class="win"><div class="wh">2 · LAUNCH RULES</div><div class="wb">
+        <div class="kv"><b>LORE REQUIRED</b><i>YES</i></div>
+        <div class="kv"><b>MINIMUM LENGTH</b><i>40 CHARS</i></div>
+        <div class="kv"><b>MAXIMUM LENGTH</b><i>1200 CHARS</i></div>
+        <div class="kv"><b>EDITABLE AFTER LAUNCH</b><i style="color:var(--red)">NEVER</i></div>
+        <div class="kv"><b>SEALED IN</b><i>THE LAUNCH TX</i></div>
+        <div class="kv"><b>WHO CAN CHANGE IT</b><i style="color:var(--red)">NOBODY</i></div>
+        <p style="margin-top:14px">An empty lore field does not deploy. That is the entire enforcement mechanism and it is the reason the pad exists — the constraint is the product.</p>
+        <p class="mute">If a founder wants to say something new later, they say it as a new post like everybody else. What they cannot do is go back and change what the coin claimed on day one.</p>
+      </div></div>
+    </section>
+
+    <section id="split">
+      <div class="win"><div class="wh">3 · THE SPLIT</div><div class="wb">
+        <p>Pons takes <strong>1.00%</strong> of every trade. That is the protocol's own fee, not something LOREPAD adds. It is split 70 / 30 between the creator and Pons, so <strong>0.70%</strong> is the part the pad controls and <strong>0.300%</strong> never reaches us.</p>
+        <div class="kv"><b>PONS FEE</b><i>1.00%</i></div>
+        <div class="kv"><b>CREATOR SHARE</b><i>0.70%</i></div>
+        <div class="kv"><b>SCRIBE, DEFAULT 30%</b><i>0.210%</i></div>
+        <div class="kv"><b>LORE VAULT, DEFAULT 70%</b><i>0.490%</i></div>
+        <h3>WORKED</h3>
+        <p>At $1,000,000 of 24h volume, Pons collects $10,000. The creator share is $7,000 — $2,100 to the scribe and $4,900 into the vault. The pad has a slider so you can move the split and watch every number move with it before you spend anything.</p>
+        <h3>THE VAULT</h3>
+        <p>Paid out to holders in the stock the coin is paired to. Six choices at launch: SPY, NVDA, TSLA, META, NFLX, COIN. Prices are read live — if one is missing, the page says so rather than guessing at it.</p>
+        <h3>THE SCRIBE SHARE</h3>
+        <p>Escrowed from the first trade and claimed by posting the seal from the handle it was signed with. Because the seal is derived from the handle, anyone can check the claim without trusting us. Unclaimed, it stays escrowed — it does not come back to the pad.</p>
+      </div></div>
+    </section>
+
+    <section id="api">
+      <div class="win"><div class="wh">4 · ENDPOINTS</div><div class="wb">
+        <p class="mute">Four read-only endpoints. No keys, no writes, no user data. Everything the pad shows comes through one of these, and you can call them yourself.</p>
+        <div class="tw">
+          <table>
+            <thead><tr><th>ENDPOINT</th><th>READS</th><th>SOURCE</th></tr></thead>
+            <tbody>
+              <tr><td><code>/api/handle?h=</code></td><td>Handle, display name, follower count, avatar, whether the account exists</td><td>FxTwitter, falling back to the X syndication timeline</td></tr>
+              <tr><td><code>/api/avatar?h=</code></td><td>The profile image bytes, proxied for browsers that block the CDN</td><td>FxTwitter → pbs.twimg.com</td></tr>
+              <tr><td><code>/api/coin?ca=</code></td><td>Holders, supply, price, market cap, liquidity, 24h volume</td><td>Robinhood Chain Blockscout + Dexscreener</td></tr>
+              <tr><td><code>/api/price?sym=</code></td><td>Last price and 3-month change for a paired stock</td><td>Yahoo → Stooq → Nasdaq → Coinbase → Dexscreener</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="mute" style="margin-top:12px">Each one falls through its sources in order and returns <code>null</code> rather than a made-up value when every source fails. A dash on the pad means exactly that.</p>
+      </div></div>
+    </section>
+
+    <section id="try">
+      <div class="win"><div class="wh">5 · TRY THEM LIVE</div><div class="wb">
+        <p class="mute">These call the real endpoints from your browser, right now.</p>
+
+        <h3>HANDLE</h3>
+        <div class="row"><input id="i-h" value="cobie" spellcheck="false"><button class="btn" data-run="h">RUN</button></div>
+        <div class="sunk out" id="o-h" hidden></div>
+
+        <h3>COIN</h3>
+        <div class="row"><input id="i-c" value="0x32fad9f482eb629dc7cb078824763e59441ee076" spellcheck="false"><button class="btn" data-run="c">RUN</button></div>
+        <div class="sunk out" id="o-c" hidden></div>
+
+        <h3>PRICE</h3>
+        <div class="row"><input id="i-p" value="NVDA" spellcheck="false"><button class="btn" data-run="p">RUN</button></div>
+        <div class="sunk out" id="o-p" hidden></div>
+
+        <h3>SEAL — RUNS WITH NO SERVER AT ALL</h3>
+        <div class="row" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto">
+          <input id="i-t" value="LEDGER" placeholder="ticker" spellcheck="false">
+          <input id="i-s" value="cobie" placeholder="handle" spellcheck="false">
+          <button class="btn" data-run="s">RUN</button>
+        </div>
+        <input id="i-l" value="The ledger was empty before anyone wrote in it. That is the whole point." spellcheck="false" style="margin-bottom:10px">
+        <div class="sunk out" id="o-s" hidden></div>
+      </div></div>
+    </section>
+
+    <section id="honest">
+      <div class="win"><div class="wh">6 · WHAT IS NOT BUILT</div><div class="wb">
+        <p>Being straight about the gaps is cheaper than being caught by them.</p>
+        <div class="kv"><b>ON-CHAIN SEAL REGISTRY</b><i style="color:var(--yellow)">NOT YET</i></div>
+        <div class="kv"><b>PAIRED STOCK VAULTS</b><i style="color:var(--yellow)">NOT YET</i></div>
+        <div class="kv"><b>CONTRACT ADDRESS</b><i style="color:var(--red)">DOES NOT EXIST</i></div>
+        <p style="margin-top:14px">Today the seal is computed in your browser and the verifier proves the maths. What is not live yet is the registry that writes the seal into the launch transaction — until that ships, a seal is a claim you can check, not a claim the chain enforces. The pad says so rather than implying otherwise.</p>
+        <p class="warn" style="margin-top:14px">NO CONTRACT ADDRESS YET.<br>ANYONE POSTING ONE BEFORE IT APPEARS ON THE PAD IS SCAMMING YOU.</p>
+      </div></div>
+    </section>
+  </main>
+</div>
+
+<script>
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+
+/* TOC highlight */
+const links = $$('.toc a').filter(a => (a.getAttribute('href') || '').startsWith('#'));
+if ('IntersectionObserver' in window && links.length){
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id));
+  }), { rootMargin: '-40% 0px -50% 0px' });
+  links.forEach(a => { const t = document.querySelector(a.getAttribute('href')); if (t) io.observe(t); });
+}
+
+function fnv(str){
+  let h = 0x811c9dc5;
+  for (let i = 0; i < str.length; i++){ h ^= str.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; }
+  return h >>> 0;
+}
+function sealOf(tick, handle, lore){
+  const key = String(tick).toUpperCase().trim() + '|' + String(handle).replace(/^@/, '').toLowerCase().trim() + '|' + lore;
+  return 'LORE-' + fnv(key).toString(36).toUpperCase().padStart(7, '0').slice(-7);
+}
+
+async function run(kind, btn){
+  const map = { h: ['#i-h', '#o-h'], c: ['#i-c', '#o-c'], p: ['#i-p', '#o-p'], s: [null, '#o-s'] };
+  const [inp, outSel] = map[kind];
+  const out = $(outSel);
+  out.hidden = false;
+  if (kind === 's'){
+    const t = $('#i-t').value, h = $('#i-s').value, l = $('#i-l').value;
+    const code = sealOf(t, h, l);
+    out.textContent = JSON.stringify({
+      key: t.toUpperCase().trim() + '|' + h.replace(/^@/, '').toLowerCase().trim() + '|' + l,
+      seal: code, chars: l.length
+    }, null, 2);
+    return;
+  }
+  const v = $(inp).value.trim();
+  const url = kind === 'h' ? '/api/handle?h=' + encodeURIComponent(v)
+            : kind === 'c' ? '/api/coin?ca=' + encodeURIComponent(v)
+            : '/api/price?sym=' + encodeURIComponent(v);
+  btn.disabled = true; const old = btn.textContent; btn.textContent = '…';
+  out.textContent = 'GET ' + url + '\n\nreading…';
+  try{
+    const r = await fetch(url);
+    const txt = await r.text();
+    let body = txt;
+    try{ body = JSON.stringify(JSON.parse(txt), null, 2); }catch(e){}
+    out.textContent = 'GET ' + url + '\n' + r.status + ' ' + r.statusText + '\n\n' + body;
+  }catch(e){
+    out.textContent = 'GET ' + url + '\n\nrequest failed: ' + e.message;
+  }
+  btn.disabled = false; btn.textContent = old;
+}
+$$('[data-run]').forEach(b => b.addEventListener('click', () => run(b.dataset.run, b)));
+</script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>LOREPAD — no lore, no launch</title>
+<title>LORE</title>
 <meta name="description" content="A launchpad where every coin ships with permanent, uneditable lore. The lore is sealed at launch and anyone can verify it.">
 <link rel="icon" href="assets/favicon.png">
 <meta property="og:title" content="LOREPAD — no lore, no launch">
@@ -13,6 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<script>document.documentElement.className+=" js"</script>
 <style>
 :root{
   --bg:#2c261d; --bg2:#242018;
@@ -31,7 +32,7 @@ html{overflow-x:hidden;scroll-behavior:smooth;scroll-padding-top:104px}
 body{
   overflow-x:clip;margin:0;background:var(--bg) var(--chk);background-size:4px 4px;
   color:var(--paper);font-family:var(--body);font-size:16px;line-height:1.65;
-  -webkit-font-smoothing:none;padding-bottom:64px;
+  -webkit-font-smoothing:none;
 }
 img{max-width:100%;image-rendering:pixelated}
 [hidden]{display:none!important}
@@ -106,10 +107,12 @@ label{font-family:var(--ui);font-size:9px;color:var(--mute);display:block;margin
 
 .nav{position:sticky;top:29px;z-index:39;border-bottom:2px solid #000;
   background:#2a241b var(--chk);background-size:4px 4px}
-.navin{max-width:var(--maxw);margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:14px}
+.navin{max-width:var(--maxw);margin:0 auto;padding:10px 16px;display:grid;
+  grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:14px}
 .brand{display:flex;align-items:center;gap:10px;font-family:var(--ui);font-size:13px;color:var(--gold);text-shadow:2px 2px 0 #000}
 .brand img{width:28px;height:28px}
-.nav ul{list-style:none;display:flex;gap:4px;margin:0 0 0 auto;padding:0;flex-wrap:wrap}
+.nav ul{list-style:none;display:flex;gap:4px;margin:0;padding:0;flex-wrap:wrap;justify-content:center}
+.nav .sp{justify-self:end}
 .nav ul a{font-family:var(--ui);font-size:9px;color:var(--mute);padding:8px 9px;display:block;text-shadow:1px 1px 0 #000}
 .nav ul a:hover,.nav ul a.on{color:var(--gold);background:#3a3122}
 .mb{display:none}
@@ -218,19 +221,27 @@ summary::before{content:'▸ ';color:var(--orange)}
 details[open] summary::before{content:'▾ '}
 details .a{padding:0 14px 14px;color:var(--mute);font-size:16px;line-height:1.7;text-shadow:1px 1px 0 rgba(0,0,0,.5)}
 
-/* chatbox */
-.chat{position:fixed;left:0;right:0;bottom:0;z-index:50;border-top:2px solid #000;
-  background:#1d1810 var(--chk);background-size:4px 4px;
-  padding:8px 12px calc(8px + env(safe-area-inset-bottom,0px))}
-.chatin{max-width:var(--maxw);margin:0 auto;display:flex;gap:12px;align-items:center}
-.log{flex:1 1 auto;min-width:0;height:44px;overflow-y:auto;font-family:var(--ui);font-size:9px;line-height:1.9;
-  text-shadow:1px 1px 0 #000;scrollbar-width:thin}
-.log div{color:var(--paper)}
-.log .y{color:var(--yellow)}.log .g{color:var(--green)}.log .r{color:var(--red)}.log .o{color:var(--orange)}
-.pts{font-family:var(--ui);font-size:9px;color:var(--mute);white-space:nowrap;text-shadow:1px 1px 0 #000}
-.pts i{font-style:normal;color:var(--yellow)}
 
 /* xp drops + level up */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* loading screen */
+.load{position:fixed;inset:0;z-index:200;background:#1a160f var(--chk);background-size:4px 4px;
+  display:flex;align-items:center;justify-content:center;padding:20px}
+html:not(.js) .load{display:none}
+.load.out{opacity:0;pointer-events:none;transition:opacity .35s steps(5)}
+.loadbox{width:min(460px,100%);text-align:center}
+.loadbox img{width:88px;height:88px;border:2px solid #000;box-shadow:inset 0 0 0 1px #6d5a3e;image-rendering:pixelated}
+.loadwm{font-family:var(--ui);font-size:26px;color:var(--gold);text-shadow:3px 3px 0 #000;margin:16px 0 4px;line-height:1}
+.loadtag{font-family:var(--ui);font-size:8px;color:var(--yellow);text-shadow:1px 1px 0 #000;letter-spacing:.06em}
+.loadbar{height:24px;margin:22px 0 12px;border:2px solid #000;background:#0f0c08;
+  box-shadow:inset 1px 1px 0 #000,inset -1px -1px 0 #4a3e2c;padding:2px}
+.loadbar i{display:block;height:100%;width:0%;background:#9e2820;
+  box-shadow:inset 0 2px 0 #c4362b,inset 0 -2px 0 #6d1a14;transition:width .25s steps(6)}
+.loadmsg{font-family:var(--ui);font-size:9px;color:var(--paper);text-shadow:1px 1px 0 #000;
+  display:flex;justify-content:space-between;gap:12px;line-height:1.8}
+.loadmsg b{font-weight:400;color:var(--gold)}
+@media(max-width:520px){.loadwm{font-size:19px}.loadbox img{width:68px;height:68px}}
+
 .xpl{position:fixed;inset:0;pointer-events:none;z-index:60}
 .xp{position:absolute;font-family:var(--ui);font-size:12px;color:var(--yellow);text-shadow:2px 2px 0 #000;
   animation:rise 1.5s ease-out forwards}
@@ -243,7 +254,8 @@ details .a{padding:0 14px 14px;color:var(--mute);font-size:16px;line-height:1.7;
 
 footer{border-top:2px solid #000;background:#221d15 var(--chk);background-size:4px 4px;margin-top:8px}
 .fin{max-width:var(--maxw);margin:0 auto;padding:22px 16px;display:flex;gap:16px;flex-wrap:wrap;justify-content:space-between;align-items:center}
-.warn{font-family:var(--ui);font-size:9px;color:var(--red);line-height:2;text-shadow:1px 1px 0 #000}
+.flinks{display:flex;gap:14px}
+.flinks a{font-family:var(--ui);font-size:9px;text-shadow:1px 1px 0 #000}
 
 .rv{opacity:1}
 html.js .rv{opacity:0;transform:translateY(10px)}
@@ -251,6 +263,8 @@ html.js .rv.in{opacity:1;transform:none;transition:opacity .4s steps(4),transfor
 @media (prefers-reduced-motion:reduce){html.js .rv{opacity:1;transform:none}}
 
 @media(max-width:780px){
+  .navin{display:flex;flex-wrap:wrap}
+  .nav .sp{display:none}
   .nav ul{display:none}
   .nav ul.open{display:flex;flex-direction:column;width:100%;order:3;gap:0;margin:8px 0 4px}
   .nav ul.open a{padding:11px 4px}
@@ -259,11 +273,20 @@ html.js .rv.in{opacity:1;transform:none;transition:opacity .4s steps(4),transfor
   .wm{font-size:26px}
   .mark img{width:76px;height:76px}
   body{font-size:15.5px}
-  .log{height:30px}
 }
 </style>
 </head>
 <body>
+
+<div class="load" id="load">
+  <div class="loadbox">
+    <img src="assets/pfp.png" alt="" width="88" height="88">
+    <div class="loadwm">LOREPAD</div>
+    <div class="loadtag">NO LORE, NO LAUNCH</div>
+    <div class="loadbar"><i id="lb"></i></div>
+    <div class="loadmsg"><span id="lm">Opening the ledger&hellip;</span><b id="lp">0%</b></div>
+  </div>
+</div>
 
 <div class="ticker"><div class="tkin" id="tk"><b>READING PAIRED STOCKS…</b></div></div>
 
@@ -280,6 +303,7 @@ html.js .rv.in{opacity:1;transform:none;transition:opacity .4s steps(4),transfor
       <li><a href="#faq">FAQ</a></li>
       <li><a href="docs.html">Docs</a></li>
     </ul>
+    <span class="sp"></span>
   </div>
 </header>
 
@@ -588,40 +612,53 @@ html.js .rv.in{opacity:1;transform:none;transition:opacity .4s steps(4),transfor
 
 <footer>
   <div class="fin">
-    <div>
-      <div class="brand" style="font-size:11px"><img src="assets/mark.png" alt="" width="20" height="20"><span>LOREPAD</span></div>
-      <p class="hint" style="margin-top:8px">No lore, no launch. Built on Robinhood Chain.</p>
+    <div class="brand" style="font-size:11px"><img src="assets/mark.png" alt="" width="20" height="20"><span>LOREPAD</span></div>
+    <div class="flinks">
+      <a href="#write">Write</a><a href="#verify">Verify</a><a href="docs.html">Docs</a>
     </div>
-    <div class="warn">NO CONTRACT ADDRESS YET.<br>ANYONE POSTING ONE BEFORE IT APPEARS HERE IS SCAMMING YOU.</div>
   </div>
 </footer>
 
-<div class="chat">
-  <div class="chatin">
-    <div class="log" id="log" aria-live="polite"><div class="o">Welcome to LOREPAD.</div><div>Write your lore. It can never be edited.</div></div>
-    <div class="pts">LORE POINTS <i id="pts">0</i></div>
-  </div>
-</div>
+<div class="sr" id="log" aria-live="polite"></div>
 
 <div class="xpl" id="xpl"></div>
 
 <script>
-document.documentElement.className += ' js';
 const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+/* ---------- loading screen ---------- */
+(function(){
+  const box = $('#load'); if (!box) return;
+  const bar = $('#lb'), msg = $('#lm'), pctEl = $('#lp');
+  const steps = ['Opening the ledger\u2026', 'Checking the seals\u2026',
+                 'Reading the chain\u2026', 'No lore, no launch.'];
+  let pct = 0, i = 0, done = false, loaded = false;
+  const tick = setInterval(() => {
+    pct = Math.min(96, pct + 6 + Math.random() * 10);
+    bar.style.width = pct + '%';
+    pctEl.textContent = Math.round(pct) + '%';
+    const n = Math.min(steps.length - 1, Math.floor(pct / 26));
+    if (n !== i){ i = n; msg.textContent = steps[i]; }
+    if (pct >= 96 && loaded) finish();
+  }, 190);
+  function finish(){
+    if (done) return; done = true;
+    clearInterval(tick);
+    bar.style.width = '100%'; pctEl.textContent = '100%';
+    msg.textContent = steps[steps.length - 1];
+    setTimeout(() => { box.classList.add('out'); setTimeout(() => box.remove(), 420); }, 260);
+  }
+  window.addEventListener('load', () => { loaded = true; });
+  setTimeout(() => { loaded = true; }, 1500);
+  setTimeout(finish, 4200);                      // backstop: never trap the page
+})();
+
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
 /* ---------- chatbox + points ---------- */
-let pts = 0;
-function say(msg, cls){
-  const l = $('#log'), d = document.createElement('div');
-  if (cls) d.className = cls;
-  d.textContent = msg; l.appendChild(d);
-  while (l.children.length > 40) l.removeChild(l.firstChild);
-  l.scrollTop = l.scrollHeight;
-}
+function say(msg){ $('#log').textContent = msg; }
 function xp(n, el){
-  pts += n; $('#pts').textContent = pts;
-  const r = (el || $('#log')).getBoundingClientRect();
+  if (!el) return;
+  const r = el.getBoundingClientRect();
   const s = document.createElement('div');
   s.className = 'xp'; s.textContent = '+' + n;
   s.style.left = Math.min(window.innerWidth - 80, r.left + r.width / 2) + 'px';
@@ -713,7 +750,6 @@ async function loadPrices(){
     '</b><div style="font-size:15px;color:' + (p.price == null ? '#6f6450' : 'var(--paper)') + '">' +
     (p.price == null ? 'no price' : money(p.price)) + '</div></div>').join('');
   const n = got.filter(p => p.price != null).length;
-  say('Paired stock prices read: ' + n + ' of ' + PAIRS.length + '.', n === PAIRS.length ? 'g' : 'y');
 }
 loadPrices();
 
@@ -722,14 +758,14 @@ let founder = null;
 $('#b-check').addEventListener('click', async e => {
   const b = e.currentTarget;
   const h = $('#f-h').value.replace(/^@/, '').trim();
-  if (!/^[A-Za-z0-9_]{1,15}$/.test(h)){ say('That is not a valid X handle.', 'r'); $('#wstat').textContent = 'BAD HANDLE'; return; }
+  if (!/^[A-Za-z0-9_]{1,15}$/.test(h)){ say('That is not a valid X handle.'); $('#wstat').textContent = 'BAD HANDLE'; return; }
   b.disabled = true; b.textContent = 'CHECKING…'; $('#wstat').textContent = 'READING X…';
   try{
     const r = await fetch('/api/handle?h=' + encodeURIComponent(h));
     const j = await r.json();
     if (j.exists === false){
       $('#who').hidden = true; founder = null;
-      say('@' + h + ' does not exist.', 'r'); $('#wstat').textContent = 'NOT FOUND';
+      say('@' + h + ' does not exist.'); $('#wstat').textContent = 'NOT FOUND';
     } else if (j.exists === true){
       founder = j.handle || h;
       $('#who-a').src = '/api/avatar?h=' + encodeURIComponent(founder);
@@ -741,14 +777,14 @@ $('#b-check').addEventListener('click', async e => {
       ].filter(Boolean).join(' · ');
       $('#who').hidden = false;
       $('#wstat').textContent = 'FOUNDER SET';
-      say('@' + founder + ' found. Read live from ' + (j.src || 'X') + '.', 'g');
+      say('@' + founder + ' found. Read live from ' + (j.src || 'X') + '.');
       xp(5, b);
     } else {
       $('#who').hidden = true; founder = null;
-      say('Could not reach X just now. Try again in a moment.', 'y'); $('#wstat').textContent = 'NO ANSWER';
+      say('Could not reach X just now. Try again in a moment.'); $('#wstat').textContent = 'NO ANSWER';
     }
   }catch(err){
-    say('The handle check failed to reach the network.', 'r'); $('#wstat').textContent = 'ERROR';
+    say('The handle check failed to reach the network.'); $('#wstat').textContent = 'ERROR';
   }
   b.disabled = false; b.textContent = 'CHECK HANDLE';
 });
@@ -774,9 +810,9 @@ let sealed = null;
 $('#b-seal').addEventListener('click', e => {
   const t = $('#f-tick').value.trim(), h = $('#f-h').value.replace(/^@/, '').trim(), l = lore.value;
   const name = $('#f-name').value.trim();
-  if (!t){ say('A coin needs a ticker before it can be sealed.', 'r'); $('#f-tick').focus(); return; }
-  if (!h){ say('A coin needs a founder before it can be sealed.', 'r'); $('#f-h').focus(); return; }
-  if (l.trim().length < 40){ say('That is not lore, that is a caption. Write at least 40 characters.', 'r'); lore.focus(); return; }
+  if (!t){ say('A coin needs a ticker before it can be sealed.'); $('#f-tick').focus(); return; }
+  if (!h){ say('A coin needs a founder before it can be sealed.'); $('#f-h').focus(); return; }
+  if (l.trim().length < 40){ say('That is not lore, that is a caption. Write at least 40 characters.'); lore.focus(); return; }
   const code = sealOf(t, h, l);
   sealed = { name, tick: t.toUpperCase(), handle: h, lore: l, code, at: new Date() };
   $('#seal-code').textContent = code;
@@ -787,7 +823,7 @@ $('#b-seal').addEventListener('click', e => {
   $('#wstat').textContent = 'SEALED';
   paintDraft();
   $('#s-sealed').textContent = (+$('#s-sealed').textContent + 1);
-  say('Lore sealed as ' + code + '. It can never be edited.', 'y');
+  say('Lore sealed as ' + code + '. It can never be edited.');
   xp(50, e.currentTarget);
   levelup('LORE SEALED', 'Your lore for $' + sealed.tick + ' is now ' + code + '. Change a single character and the seal changes with it.');
 });
@@ -813,7 +849,7 @@ async function copy(text, btn, label){
   }
   const old = btn.textContent; btn.textContent = 'COPIED';
   setTimeout(() => btn.textContent = old, 1400);
-  say(label + ' copied to your clipboard.', 'g');
+  say(label + ' copied to your clipboard.');
 }
 $('#b-copy').addEventListener('click', e => { if (sealed) copy(sealed.code, e.currentTarget, 'Seal'); });
 $('#b-post').addEventListener('click', e => {
@@ -828,7 +864,7 @@ paintDraft();
 /* ---------- ledger reader ---------- */
 $('#b-read').addEventListener('click', async e => {
   const b = e.currentTarget, ca = $('#f-ca').value.trim().toLowerCase();
-  if (!/^0x[0-9a-f]{40}$/.test(ca)){ say('That is not a contract address.', 'r'); return; }
+  if (!/^0x[0-9a-f]{40}$/.test(ca)){ say('That is not a contract address.'); return; }
   b.disabled = true; b.textContent = 'READING…';
   const set = (id, v, cls) => { const el = $(id); el.textContent = v; el.className = 'big' + (cls ? ' ' + cls : ''); };
   try{
@@ -846,7 +882,7 @@ $('#b-read').addEventListener('click', async e => {
     xp(10, b);
   }catch(err){
     $('#r-note').textContent = 'That read failed. The address may not be on this chain.';
-    say('The chain read failed.', 'r');
+    say('The chain read failed.');
   }
   b.disabled = false; b.textContent = 'READ IT';
 });
@@ -884,7 +920,7 @@ paintSplit();
 
 /* ---------- verifier ---------- */
 $('#b-fill').addEventListener('click', () => {
-  if (!sealed){ say('Seal some lore first and this will fill itself in.', 'y'); return; }
+  if (!sealed){ say('Seal some lore first and this will fill itself in.'); return; }
   $('#v-t').value = sealed.tick; $('#v-h').value = sealed.handle;
   $('#v-l').value = sealed.lore; $('#v-s').value = sealed.code;
   say('Verifier filled from your seal. Change one character and try it.');
@@ -892,7 +928,7 @@ $('#b-fill').addEventListener('click', () => {
 $('#b-verify').addEventListener('click', e => {
   const t = $('#v-t').value.trim(), h = $('#v-h').value.trim(), l = $('#v-l').value, claim = $('#v-s').value.trim().toUpperCase();
   const out = $('#v-out');
-  if (!t || !h || !l.trim() || !claim){ say('The verifier needs a ticker, a handle, the lore and the seal.', 'r'); return; }
+  if (!t || !h || !l.trim() || !claim){ say('The verifier needs a ticker, a handle, the lore and the seal.'); return; }
   const real = sealOf(t, h, l);
   const ok = real === claim;
   out.hidden = false;
@@ -906,8 +942,6 @@ $('#b-verify').addEventListener('click', e => {
   xp(ok ? 20 : 5, e.currentTarget);
 });
 
-/* ---------- honest empty state for chain-backed stats ---------- */
-say('No contract address yet. Every number on this page that needs one shows a dash.', 'o');
 </script>
 </body>
 </html>

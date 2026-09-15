@@ -87,7 +87,7 @@ label{font-family:var(--ui);font-size:9px;color:var(--mute);display:block;margin
 .nav ul{list-style:none;display:flex;gap:2px;margin:0;padding:0;flex-wrap:wrap;justify-content:center}
 .nav ul a{font-family:var(--ui);font-size:9px;color:var(--dim);padding:8px 10px;display:block;text-shadow:1px 1px 0 #000}
 .nav ul a:hover,.nav ul a.on{color:var(--gold)}
-.nav .sp{justify-self:end}
+.nav .sp{display:block}
 .mb{display:none}
 
 /* ---------- flowing sections ---------- */
@@ -291,7 +291,7 @@ html.loading,html.loading body{overflow:hidden}
 
 <header class="nav">
   <div class="navin">
-    <a class="brand" href="#top"><img src="assets/mark.png" alt=""><span>LOREPAD</span></a>
+    <span class="sp"></span>
     <button class="btn sm mb" id="mb" aria-expanded="false">MENU</button>
     <ul id="menu">
       <li><a href="#rule">The rule</a></li>
